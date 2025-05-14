@@ -39,6 +39,21 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="DTOs\BookingDto.cs" />
+        <Compile Include="DTOs\FilterDto.cs" />
+        <Compile Include="DTOs\FlightAndBookingDto.cs" />
+        <Compile Include="DTOs\FlightDto.cs" />
+        <Compile Include="DTOs\SignInDto.cs" />
+        <Compile Include="DTOs\SignUpDto.cs" />
+        <Compile Include="DTOs\UserAndBookingsDto.cs" />
+        <Compile Include="Entities\BookingEf.cs" />
+        <Compile Include="Entities\FlightEf.cs" />
+        <Compile Include="Entities\UserEf.cs" />
+        <Compile Include="Enums\FlightStatus.cs" />
+        <Compile Include="Interfaces\IGenericRepository.cs" />
+        <Compile Include="Interfaces\Users\IBookingsRepository.cs" />
+        <Compile Include="Interfaces\Users\IFlightsRepository.cs" />
+        <Compile Include="Interfaces\Users\IUsersRepository.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
