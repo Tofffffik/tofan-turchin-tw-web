@@ -116,13 +116,59 @@
         <Compile Include="App_Start\BundleConfig.cs"/>
         <Compile Include="App_Start\FilterConfig.cs"/>
         <Compile Include="App_Start\RouteConfig.cs"/>
+        <Compile Include="Controllers\AccountController.cs" />
+        <Compile Include="Controllers\AdminController.cs" />
+        <Compile Include="Controllers\BookingsController.cs" />
+        <Compile Include="Controllers\FlightsController.cs" />
+        <Compile Include="Controllers\HomeController.cs" />
+        <Compile Include="Controllers\MyProfileController.cs" />
         <Compile Include="Global.asax.cs">
             <DependentUpon>Global.asax</DependentUpon>
         </Compile>
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>
     <ItemGroup>
+        <Content Include="Assets\CSS\admin.css" />
+        <Content Include="Assets\CSS\bookings.css" />
+        <Content Include="Assets\CSS\flight.css" />
+        <Content Include="Assets\CSS\flights.css" />
+        <Content Include="Assets\CSS\main.css" />
+        <Content Include="Assets\CSS\myProfile.css" />
+        <Content Include="Assets\CSS\signIn.css" />
+        <Content Include="Assets\CSS\signUp.css" />
+        <Content Include="Assets\CSS\Site.css" />
+        <Content Include="Assets\favicon.ico" />
+        <Content Include="Assets\html\addLine.html" />
+        <Content Include="Assets\html\bilet.html" />
+        <Content Include="Assets\html\filter.html" />
+        <Content Include="Assets\html\login.html" />
+        <Content Include="Assets\html\main.html" />
+        <Content Include="Assets\html\myProfile.html" />
+        <Content Include="Assets\html\register.html" />
+        <Content Include="Assets\html\reis.html" />
+        <Content Include="Assets\Scripts\admin.js" />
+        <Content Include="Assets\Scripts\adminAddTicker.js" />
+        <Content Include="Assets\Scripts\bookings.js" />
+        <Content Include="Assets\Scripts\DropDown.js" />
+        <Content Include="Assets\Scripts\flight.js" />
+        <Content Include="Assets\Scripts\flights.js" />
+        <Content Include="Assets\Scripts\jquery-3.3.1.intellisense.js" />
+        <Content Include="Assets\Scripts\myProfile.js" />
+        <Content Include="Assets\Scripts\signIn.js" />
+        <Content Include="Assets\Scripts\signUp.js" />
         <Content Include="Global.asax"/>
+        <Content Include="Views\Account\SignIn.cshtml" />
+        <Content Include="Views\Account\SignUp.cshtml" />
+        <Content Include="Views\Admin\Index.cshtml" />
+        <Content Include="Views\Bookings\Index.cshtml" />
+        <Content Include="Views\Flights\Flight.cshtml" />
+        <Content Include="Views\Flights\Index.cshtml" />
+        <Content Include="Views\Home\Index.cshtml" />
+        <Content Include="Views\MyProfile\Index.cshtml" />
+        <Content Include="Views\Shared\Partials\Footer.cshtml" />
+        <Content Include="Views\Shared\Partials\Header.cshtml" />
+        <Content Include="Views\Shared\_Layout.cshtml" />
+        <Content Include="Views\_ViewStart.cshtml" />
         <Content Include="Web.config"/>
         <Content Include="Web.Debug.config">
             <DependentUpon>Web.config</DependentUpon>
@@ -134,7 +180,6 @@
     </ItemGroup>
     <ItemGroup>
         <Folder Include="App_Data"/>
-        <Folder Include="Controllers\" />
     </ItemGroup>
     <ItemGroup>
         <None Include="packages.config"/>
