@@ -9,11 +9,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73d158b9-bb02-4c1b-8ced-8d9d4588fff7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.JetPass/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.JetPass/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JetPass.BusinessLogic/JetPass.BusinessLogic.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/JetPass.BusinessLogic/JetPass.BusinessLogic.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JetPass.DAL/JetPass.DAL.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/JetPass.DAL/JetPass.DAL.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JetPass/JetPass.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/JetPass/JetPass.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JetPass/Web.config" beforeDir="false" afterPath="$PROJECT_DIR$/JetPass/Web.config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JetPass/packages.config" beforeDir="false" afterPath="$PROJECT_DIR$/JetPass/packages.config" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +102,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1747214254638</updated>
-      <workItem from="1747214255733" duration="1558000" />
+      <workItem from="1747214255733" duration="1889000" />
     </task>
     <servers />
   </component>
