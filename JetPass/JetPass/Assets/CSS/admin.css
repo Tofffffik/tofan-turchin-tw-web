@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #0a0a0a;
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+.gradient-bg {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.admin-card {
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.flight-row:hover {
+    background-color: #2d3748;
+}
+
+.tab-button.active {
+    border-bottom: 2px solid #ff6b6b;
+    color: white;
+}
+
+.form-input:focus {
+    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.5);
+}
+
+.pagination .active {
+    background-color: #ff6b6b;
+    color: white;
+}

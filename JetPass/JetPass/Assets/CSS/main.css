@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #0a0a0a;
+    color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+.gradient-bg {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.ticket-card {
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ticket-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.price-tag {
+    background: linear-gradient(90deg, #ff6b6b 0%, #ff8e8e 100%);
+}
+
+.search-box {
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+}
+
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #ff6b6b;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.flight-path {
+    position: relative;
+}
+
+.flight-path::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, #ff6b6b 50%, transparent 100%);
+    z-index: 0;
+}
+
+.switch input:checked+.slider {
+    background-color: #ff6b6b;
+}
+
+.switch input:focus+.slider {
+    box-shadow: 0 0 1px #ff6b6b;
+}
+
+.switch input:checked+.slider:before {
+    transform: translateX(20px);
+}
