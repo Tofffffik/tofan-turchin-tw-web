@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyJet | Вход</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        .auth-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #ff6b6b;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .input-field:focus {
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.5);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-plane-departure text-3xl text-red-400"></i>
+                    <h1
+                        class="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">
+                        SkyJet</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="nav-link text-gray-300 hover:text-white">Поиск билетов</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="register.html" class="hidden md:block text-gray-300 hover:text-white">
+                        Регистрация
+                    </a>
+                    <button class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Auth Section -->
+    <section class="py-16 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="max-w-md mx-auto bg-gray-800 rounded-xl shadow-xl overflow-hidden auth-card">
+                <div class="p-8">
+                    <div class="flex justify-center mb-8">
+                        <i class="fas fa-plane-departure text-5xl text-red-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-center mb-6">Войдите в аккаунт</h2>
+
+                    <form>
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm mb-2" for="email">Email или телефон</label>
+                            <input type="text" id="email"
+                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field"
+                                placeholder="example@mail.com или +7 (999) 123-45-67">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm mb-2" for="password">Пароль</label>
+                            <input type="password" id="password"
+                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field"
+                                placeholder="Ваш пароль">
+                        </div>
+
+                        <div class="mb-6 flex justify-between items-center">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="remember"
+                                    class="mr-2 bg-gray-700 border-gray-600 text-red-500 focus:ring-red-500">
+                                <label for="remember" class="text-gray-400 text-sm">Запомнить меня</label>
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 mb-4">
+                            Войти
+                        </button>
+
+                        <div class="text-center text-gray-400">
+                            Еще нет аккаунта? <a href="register.html"
+                                class="text-red-400 hover:underline">Зарегистрироваться</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-gray-700 px-8 py-4">
+                    <div class="text-center text-gray-400 text-sm">
+                        Войдите, чтобы получить доступ к персональным скидкам, истории бронирований и быстрому
+                        оформлению билетов.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">© 2023 SkyJet. Все права защищены.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-white">Политика конфиденциальности</a>
+                    <a href="#" class="text-gray-500 hover:text-white">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const rememberCheckbox = document.getElementById('remember');
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+
+            // Валидация email/телефона
+            function validateEmail(email) {
+                // Проверка email
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                // Проверка телефона (между 10 и 15 цифрами, может начинаться с +)
+                const phoneRegex = /^\+?[0-9]{10,15}$/;
+
+                // Очищаем телефон от всех нецифровых символов (кроме +)
+                const cleanPhone = email.replace(/[^\d+]/g, '');
+
+                return emailRegex.test(email) || phoneRegex.test(cleanPhone);
+            }
+
+            // Валидация пароля
+            function validatePassword(password) {
+                // Минимум 6 символов, хотя бы 1 цифра и 1 буква
+                return password.length >= 6 && /\d/.test(password) && /[a-zA-Z]/.test(password);
+            }
+
+            // Показать ошибку
+            function showError(input, message) {
+                const formGroup = input.parentElement;
+                let errorElement = formGroup.querySelector('.error-message');
+
+                if (!errorElement) {
+                    errorElement = document.createElement('p');
+                    errorElement.className = 'error-message text-red-400 text-xs mt-1';
+                    formGroup.appendChild(errorElement);
+                }
+
+                errorElement.textContent = message;
+                input.classList.add('border-red-500');
+                input.classList.remove('border-gray-600');
+            }
+
+            // Убрать ошибку
+            function clearError(input) {
+                const formGroup = input.parentElement;
+                const errorElement = formGroup.querySelector('.error-message');
+
+                if (errorElement) {
+                    formGroup.removeChild(errorElement);
+                }
+
+                input.classList.remove('border-red-500');
+                input.classList.add('border-gray-600');
+            }
+
+            // Валидация всей формы
+            function validateForm() {
+                let isValid = true;
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
+
+                // Валидация email/телефона
+                if (!email) {
+                    showError(emailInput, 'Поле обязательно для заполнения');
+                    isValid = false;
+                } else if (!validateEmail(email)) {
+                    showError(emailInput, 'Введите корректный email или телефон');
+                    isValid = false;
+                } else {
+                    clearError(emailInput);
+                }
+
+                // Валидация пароля
+                if (!password) {
+                    showError(passwordInput, 'Поле обязательно для заполнения');
+                    isValid = false;
+                } else if (!validatePassword(password)) {
+                    showError(passwordInput, 'Пароль должен содержать минимум 6 символов, включая буквы и цифры');
+                    isValid = false;
+                } else {
+                    clearError(passwordInput);
+                }
+
+                return isValid;
+            }
+
+            // Обработчики событий для валидации при вводе
+            emailInput.addEventListener('input', function () {
+                if (this.value.trim()) {
+                    clearError(this);
+                }
+            });
+
+            passwordInput.addEventListener('input', function () {
+                if (this.value.trim()) {
+                    clearError(this);
+                }
+            });
+
+            // Отправка формы
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Валидация перед отправкой
+                if (!validateForm()) return;
+
+                // Подготовка данных
+                const formData = new FormData();
+                formData.append('Email', emailInput.value.trim());
+                formData.append('Password', passwordInput.value);
+                formData.append('RememberMe', rememberCheckbox.checked);
+
+                // Добавляем anti-forgery token если есть
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+                if (token) {
+                    formData.append('__RequestVerificationToken', token);
+                }
+
+                // Показываем индикатор загрузки
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Вход...';
+
+                // AJAX-запрос
+                fetch('/Account/Login', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => { throw err; });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = data.redirectUrl || '/';
+                        } else {
+                            // Обработка ошибок с сервера
+                            if (data.errors) {
+                                for (const key in data.errors) {
+                                    if (key === 'Email') {
+                                        showError(emailInput, data.errors[key].join(' '));
+                                    } else if (key === 'Password') {
+                                        showError(passwordInput, data.errors[key].join(' '));
+                                    } else {
+                                        alert(data.errors[key].join(' '));
+                                    }
+                                }
+                            } else if (data.message) {
+                                alert(data.message);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        alert('Произошла ошибка при входе. Пожалуйста, попробуйте позже.');
+                    })
+                    .finally(() => {
+                        // Восстанавливаем кнопку
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalButtonText;
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>

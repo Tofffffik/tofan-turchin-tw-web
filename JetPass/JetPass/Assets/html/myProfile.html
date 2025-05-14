@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyJet | Личный кабинет</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        
+        .profile-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #ff6b6b;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .input-field:focus {
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.5);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-button.active {
+            border-bottom: 2px solid #ff6b6b;
+            color: white;
+        }
+        
+        .ticket-card {
+            transition: all 0.3s ease;
+        }
+        
+        .ticket-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-plane-departure text-3xl text-red-400"></i>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">SkyJet</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="nav-link text-gray-300 hover:text-white">Поиск билетов</a>
+                    <a href="#" class="nav-link text-gray-300 hover:text-white">Акции</a>
+                    <a href="#" class="nav-link text-gray-300 hover:text-white">Направления</a>
+                    <a href="#" class="nav-link text-gray-300 hover:text-white">Помощь</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-2">
+                        <i class="fas fa-user-circle text-xl text-red-400"></i>
+                        <span class="text-gray-300">Иван Петров</span>
+                    </div>
+                    <button class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Profile Section -->
+    <section class="py-8 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- Sidebar -->
+                <div class="w-full md:w-64 bg-gray-800 rounded-xl p-4 profile-card">
+                    <div class="flex flex-col items-center mb-6">
+                        <div class="relative mb-4">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile" class="w-20 h-20 rounded-full object-cover border-2 border-red-400">
+                            <button class="absolute bottom-0 right-0 bg-gray-700 p-2 rounded-full hover:bg-gray-600">
+                                <i class="fas fa-camera text-sm text-white"></i>
+                            </button>
+                        </div>
+                        <h3 class="font-bold text-lg">Иван Петров</h3>
+                        <p class="text-gray-400 text-sm">Gold member</p>
+                    </div>
+                    
+                    <nav class="space-y-2">
+                        <button onclick="openTab('bookings')" class="tab-button active w-full text-left px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-ticket-alt mr-3 text-red-400"></i>
+                            Мои бронирования
+                        </button>
+                        <button onclick="openTab('profile')" class="tab-button w-full text-left px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-user mr-3 text-gray-400"></i>
+                            Профиль
+                        </button>
+                        <a href="#" class="block px-4 py-2 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-white flex items-center">
+                            <i class="fas fa-sign-out-alt mr-3"></i>
+                            Выйти
+                        </a>
+                    </nav>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="flex-1 bg-gray-800 rounded-xl p-6 profile-card">
+                    <!-- Bookings Tab -->
+                    <div id="bookings" class="tab-content active">
+                        <h2 class="text-2xl font-bold mb-6">Мои бронирования</h2>
+                        
+                        <!-- Current Bookings -->
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <i class="fas fa-plane mr-2 text-red-400"></i>
+                                Активные бронирования
+                            </h3>
+                            
+                            <div class="space-y-4">                                
+                                <!-- Booking 2 -->
+                                <div class="bg-gray-700 rounded-lg p-4 ticket-card">
+                                    <div class="flex flex-col md:flex-row justify-between">
+                                        <div class="mb-4 md:mb-0">
+                                            <div class="flex items-center mb-2">
+                                                <img src="https://logo.clearbit.com/turkishairlines.com" alt="Turkish Airlines" class="w-8 h-8 rounded-full mr-2">
+                                                <span class="font-medium">Turkish Airlines TK-5678</span>
+                                            </div>
+                                            <div class="flex items-center text-gray-400 text-sm">
+                                                <span>Стамбул (IST) → Дубай (DXB)</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col md:items-end">
+                                            <div class="text-lg font-bold mb-1">20 июн 2023</div>
+                                            <div class="text-sm text-gray-400">Вылет через 8 дней</div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Past Bookings -->
+                        <div>
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <i class="fas fa-history mr-2 text-gray-400"></i>
+                                История бронирований
+                            </h3>
+                            
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-gray-400">
+                                    <thead class="text-xs text-gray-300 border-b border-gray-700">
+                                        <tr>
+                                            <th class="py-3 px-4 text-left">Рейс</th>
+                                            <th class="py-3 px-4 text-left">Дата</th>
+                                            <th class="py-3 px-4 text-right">Сумма</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-700 hover:bg-gray-700">
+                                            <td class="py-4 px-4">
+                                                <div class="flex items-center">
+                                                    <img src="https://logo.clearbit.com/emirates.com" alt="Emirates" class="w-6 h-6 rounded-full mr-2">
+                                                    <span>EK-123</span>
+                                                </div>
+                                            </td>
+                                            <td class="py-4 px-4">12 мая 2023</td>
+                                            <td class="py-4 px-4 text-right">34 500 ₽</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Profile Tab -->
+                    <div id="profile" class="tab-content">
+                        <h2 class="text-2xl font-bold mb-6">Профиль пользователя</h2>
+                        
+                        <form>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div>
+                                    <label class="block text-gray-400 text-sm mb-2">Имя</label>
+                                    <input type="text" value="Иван" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-400 text-sm mb-2">Фамилия</label>
+                                    <input type="text" value="Петров" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-400 text-sm mb-2">Email</label>
+                                    <input type="email" value="ivan.petrov@example.com" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-400 text-sm mb-2">Телефон</label>
+                                    <input type="tel" value="+7 (999) 123-45-67" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-400 text-sm mb-2">Дата рождения</label>
+                                    <input type="date" value="1985-05-15" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-400 text-sm mb-2">Гражданство</label>
+                                    <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field">
+                                        <option>Россия</option>
+                                        <option>Казахстан</option>
+                                        <option>Беларусь</option>
+                                        <option>Другое</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                <i class="fas fa-passport mr-2 text-red-400"></i>
+                                Паспортные данные
+                            </h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div>
+                                    <label class="block text-gray-400 text-sm mb-2">Тип документа</label>
+                                    <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field">
+                                        <option>Паспорт РФ</option>
+                                        <option>Загранпаспорт</option>
+                                        <option>Водительские права</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-400 text-sm mb-2">Номер документа</label>
+                                    <input type="text" value="4512 123456" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-400 text-sm mb-2">Срок действия</label>
+                                    <input type="date" value="2030-12-31" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-400 text-sm mb-2">Гражданство</label>
+                                    <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field">
+                                        <option>Россия</option>
+                                        <option>Казахстан</option>
+                                        <option>Беларусь</option>
+                                        <option>Другое</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end">
+                                <button type="button" class="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg mr-4">
+                                    Отменить
+                                </button>
+                                <button type="submit" class="px-6 py-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg">
+                                    Сохранить изменения
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-plane-departure text-2xl text-red-400"></i>
+                        <h3
+                            class="text-xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">
+                            SkyJet</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">Лучший сервис по поиску и бронированию авиабилетов</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Компания</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">О нас</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Карьера</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Блог</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Партнеры</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Помощь</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Центр поддержки</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Безопасность</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Контакты</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Контакты</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-map-marker-alt mr-2"></i> Москва, ул. Тверская, 15
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-phone-alt mr-2"></i> +7 (495) 123-45-67
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-envelope mr-2"></i> info@skyjet.ru
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">© 2023 SkyJet. Все права защищены.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-white">Политика конфиденциальности</a>
+                    <a href="#" class="text-gray-500 hover:text-white">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function openTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.getElementsByClassName('tab-button');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+                // Update icons color
+                const icon = tabButtons[i].querySelector('i');
+                icon.classList.remove('text-red-400');
+                icon.classList.add('text-gray-400');
+            }
+            
+            // Show the current tab and mark button as active
+            document.getElementById(tabName).classList.add('active');
+            const activeButton = document.querySelector(`.tab-button[onclick="openTab('${tabName}')"]`);
+            activeButton.classList.add('active');
+            
+            // Update icon color for active tab
+            const activeIcon = activeButton.querySelector('i');
+            activeIcon.classList.remove('text-gray-400');
+            activeIcon.classList.add('text-red-400');
+        }
+        
+        // Simple form submission handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Profile form
+            const profileForm = document.querySelector('#profile form');
+            profileForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Изменения профиля сохранены!');
+            });
+            
+            // Delete account button
+            const deleteAccountBtn = document.querySelector('#settings button.bg-red-900');
+            deleteAccountBtn.addEventListener('click', function() {
+                if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие нельзя отменить.')) {
+                    alert('Аккаунт будет удален. Вы будете перенаправлены на главную страницу.');
+                    // window.location.href = 'index.html';
+                }
+            });
+            
+            // Cancel booking buttons
+            const cancelButtons = document.querySelectorAll('button.bg-red-500');
+            cancelButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (confirm('Вы уверены, что хотите отменить бронирование?')) {
+                        alert('Бронирование отменено. Средства будут возвращены в течение 5-7 дней.');
+                        // Here you would typically update the UI or reload data
+                    }
+                });
+            });
+            
+            // Pay booking button
+            const payButton = document.querySelector('button.bg-gradient-to-r');
+            payButton.addEventListener('click', function() {
+                alert('Перенаправление на страницу оплаты...');
+                // window.location.href = 'payment.html';
+            });
+        });
+    </script>
+</body>
+</html>

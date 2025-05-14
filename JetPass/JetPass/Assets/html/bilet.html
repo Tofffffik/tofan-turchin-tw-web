@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyJet | Оформление бронирования</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        
+        .flight-path {
+            position: relative;
+        }
+        
+        .flight-path::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #ff6b6b 50%, transparent 100%);
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-plane-departure text-3xl text-red-400"></i>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">SkyJet</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Booking Section -->
+    <section class="py-8 bg-gray-900">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <!-- Flight Info -->
+            <div class="bg-gray-800 rounded-xl p-6 mb-6">
+                <h2 class="text-xl font-bold mb-4">Ваш рейс</h2>
+                <div class="bg-gray-700 rounded-lg p-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                        <div class="flex items-center mb-4 md:mb-0">
+                            <img src="https://logo.clearbit.com/turkishairlines.com" alt="Turkish Airlines" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h4 class="font-bold">Turkish Airlines</h4>
+                                <p class="text-gray-400 text-sm">TK-415 • Airbus A321</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 mx-8 flight-path py-4">
+                            <div class="flex justify-between items-center relative z-10">
+                                <div class="text-center">
+                                    <div class="font-bold text-lg">06:45</div>
+                                    <div class="text-gray-400 text-sm">Москва (VKO)</div>
+                                    <div class="text-gray-500 text-xs">15 июн 2023</div>
+                                </div>
+                                <div class="text-center px-4">
+                                    <div class="text-gray-400 text-sm">3ч 15м</div>
+                                    <div class="text-xs text-gray-500">прямой</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="font-bold text-lg">08:00</div>
+                                    <div class="text-gray-400 text-sm">Стамбул (IST)</div>
+                                    <div class="text-gray-500 text-xs">15 июн 2023</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Class Selection -->
+            <div class="bg-gray-800 rounded-xl p-6 mb-6">
+                <h2 class="text-xl font-bold mb-4">Класс обслуживания</h2>
+                <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none">
+                    <option value="economy">Эконом - 12 300 ₽</option>
+                    <option value="comfort">Комфорт - 16 800 ₽</option>
+                    <option value="business">Бизнес - 28 500 ₽</option>
+                </select>
+            </div>
+            
+            <!-- Passenger Info -->
+            <div class="bg-gray-800 rounded-xl p-6">
+                <h2 class="text-xl font-bold mb-6">Данные пассажира</h2>
+                
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Имя (как в паспорте)</label>
+                            <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Фамилия (как в паспорте)</label>
+                            <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Дата рождения</label>
+                            <input type="date" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Пол</label>
+                            <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none" required>
+                                <option value="">Выберите пол</option>
+                                <option value="male">Мужской</option>
+                                <option value="female">Женский</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Гражданство</label>
+                            <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none" required>
+                                <option value="">Выберите страну</option>
+                                <option value="RU">Россия</option>
+                                <option value="KZ">Казахстан</option>
+                                <option value="BY">Беларусь</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Номер паспорта</label>
+                            <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none" required>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <h3 class="text-lg font-bold mb-4">Контактные данные</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-400 text-sm mb-2">Email</label>
+                                <input type="email" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-400 text-sm mb-2">Телефон</label>
+                                <input type="tel" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-6">
+                        <button type="submit" class="w-full px-6 py-4 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg font-bold text-lg">
+                            Перейти к оплате
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-500">© 2023 SkyJet. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

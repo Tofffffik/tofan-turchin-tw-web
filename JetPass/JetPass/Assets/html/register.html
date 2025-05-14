@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyJet | Регистрация</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+
+        .auth-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #ff6b6b;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .input-field:focus {
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.5);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-plane-departure text-3xl text-red-400"></i>
+                    <h1
+                        class="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">
+                        SkyJet</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="nav-link text-gray-300 hover:text-white">Поиск билетов</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="login.html" class="hidden md:block text-gray-300 hover:text-white">
+                        Войти
+                    </a>
+                    <button class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Auth Section -->
+    <section class="py-16 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="max-w-md mx-auto bg-gray-800 rounded-xl shadow-xl overflow-hidden auth-card">
+                <div class="p-8">
+                    <div class="flex justify-center mb-8">
+                        <i class="fas fa-plane-departure text-5xl text-red-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-center mb-6">Создайте аккаунт</h2>
+
+                    <form>
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm mb-2" for="name">Имя</label>
+                            <input type="text" id="name"
+                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field"
+                                placeholder="Ваше имя">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm mb-2" for="email">Email</label>
+                            <input type="email" id="email"
+                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field"
+                                placeholder="example@mail.com">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm mb-2" for="phone">Телефон</label>
+                            <input type="tel" id="phone"
+                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field"
+                                placeholder="+7 (999) 123-45-67">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm mb-2" for="password">Пароль</label>
+                            <input type="password" id="password"
+                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field"
+                                placeholder="Не менее 8 символов">
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-400 text-sm mb-2" for="confirm-password">Подтвердите
+                                пароль</label>
+                            <input type="password" id="confirm-password"
+                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field"
+                                placeholder="Повторите пароль">
+                        </div>
+
+                        <div class="mb-6 flex items-center">
+                            <input type="checkbox" id="terms"
+                                class="mr-2 bg-gray-700 border-gray-600 text-red-500 focus:ring-red-500">
+                            <label for="terms" class="text-gray-400 text-sm">Я согласен с <a href="#"
+                                    class="text-red-400 hover:underline">условиями использования</a> и <a href="#"
+                                    class="text-red-400 hover:underline">политикой конфиденциальности</a></label>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 mb-4">
+                            Зарегистрироваться
+                        </button>
+
+                        <div class="text-center text-gray-400">
+                            Уже есть аккаунт? <a href="login.html" class="text-red-400 hover:underline">Войти</a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="bg-gray-700 px-8 py-4">
+                    <div class="text-center text-gray-400 text-sm">
+                        Регистрируясь, вы получаете доступ к персональным скидкам, истории бронирований и быстрому
+                        оформлению билетов.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">© 2023 SkyJet. Все права защищены.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-white">Политика конфиденциальности</a>
+                    <a href="#" class="text-gray-500 hover:text-white">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const termsCheckbox = document.getElementById('terms');
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+
+            function validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            function validatePhone(phone) {
+                const phoneRegex = /^\+?[0-9]{10,15}$/;
+                const cleaned = phone.replace(/[^\d+]/g, '');
+                return phoneRegex.test(cleaned);
+            }
+
+            function validatePassword(password) {
+                return password.length >= 6 && /\d/.test(password) && /[a-zA-Z]/.test(password);
+            }
+
+            function showError(input, message) {
+                const group = input.parentElement;
+                let error = group.querySelector('.error-message');
+                if (!error) {
+                    error = document.createElement('p');
+                    error.className = 'error-message text-red-400 text-xs mt-1';
+                    group.appendChild(error);
+                }
+                error.textContent = message;
+                input.classList.add('border-red-500');
+                input.classList.remove('border-gray-600');
+            }
+
+            function clearError(input) {
+                const group = input.parentElement;
+                const error = group.querySelector('.error-message');
+                if (error) group.removeChild(error);
+                input.classList.remove('border-red-500');
+                input.classList.add('border-gray-600');
+            }
+
+            function validateForm() {
+                let isValid = true;
+
+                const name = nameInput.value.trim();
+                const email = emailInput.value.trim();
+                const phone = phoneInput.value.trim();
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+
+                if (!name) {
+                    showError(nameInput, 'Введите имя');
+                    isValid = false;
+                } else {
+                    clearError(nameInput);
+                }
+
+                if (!email && !phone) {
+                    showError(emailInput, 'Введите email или телефон');
+                    showError(phoneInput, 'Введите email или телефон');
+                    isValid = false;
+                } else {
+                    if (email && !validateEmail(email)) {
+                        showError(emailInput, 'Некорректный email');
+                        isValid = false;
+                    } else {
+                        clearError(emailInput);
+                    }
+
+                    if (phone && !validatePhone(phone)) {
+                        showError(phoneInput, 'Некорректный телефон');
+                        isValid = false;
+                    } else {
+                        clearError(phoneInput);
+                    }
+                }
+
+                if (!password) {
+                    showError(passwordInput, 'Поле обязательно для заполнения');
+                    isValid = false;
+                }
+                else if (!validatePassword(password)) {
+                    showError(passwordInput, 'Неверный пароль. ');
+                    isValid = false;
+                } else {
+                    clearError(passwordInput);
+                }
+
+                if (confirmPassword !== password) {
+                    showError(confirmPasswordInput, 'Пароли не совпадают');
+                    isValid = false;
+                } else {
+                    clearError(confirmPasswordInput);
+                }
+
+                if (!termsCheckbox.checked) {
+                    alert('Вы должны согласиться с условиями использования');
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+
+            // Удаление ошибок на ввод
+            [nameInput, emailInput, phoneInput, passwordInput, confirmPasswordInput].forEach(input => {
+                input.addEventListener('input', () => {
+                    if (input.value.trim()) clearError(input);
+                });
+            });
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                if (!validateForm()) return;
+
+                const formData = new FormData();
+                formData.append('Name', nameInput.value.trim());
+                formData.append('Email', emailInput.value.trim());
+                formData.append('Phone', phoneInput.value.trim());
+                formData.append('Password', passwordInput.value);
+                formData.append('ConfirmPassword', confirmPasswordInput.value);
+
+                const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+                if (token) {
+                    formData.append('__RequestVerificationToken', token);
+                }
+
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Регистрация...';
+
+                fetch('/Account/Register', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) return response.json().then(err => { throw err; });
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = data.redirectUrl || '/';
+                        } else if (data.errors) {
+                            for (const key in data.errors) {
+                                const input = document.getElementById(key.toLowerCase());
+                                if (input) showError(input, data.errors[key].join(' '));
+                            }
+                        } else if (data.message) {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert('Произошла ошибка при регистрации. Попробуйте позже.');
+                    })
+                    .finally(() => {
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = originalButtonText;
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyJet | Информация о рейсе</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        
+        .flight-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .flight-path {
+            position: relative;
+        }
+        
+        .flight-path::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #ff6b6b 50%, transparent 100%);
+            z-index: 0;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+        }
+        
+        .tab-button.active {
+            border-bottom: 2px solid #ff6b6b;
+            color: white;
+        }
+        
+        .amenity-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #2d3748;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-plane-departure text-3xl text-red-400"></i>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">SkyJet</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-300 hover:text-white">На главную</a>
+                    <a href="#" class="text-gray-300 hover:text-white">Направления</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="hidden md:block text-gray-300 hover:text-white">
+                        <i class="fas fa-user-circle text-xl"></i>
+                    </a>
+                    <button class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Flight Details Section -->
+    <section class="py-8 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Main Content -->
+                <div class="lg:w-2/3">
+                    <!-- Flight Overview -->
+                    <div class="bg-gray-800 rounded-xl p-6 flight-card mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                            <div>
+                                <h2 class="text-2xl font-bold mb-2">Turkish Airlines TK-415</h2>
+                                <p class="text-gray-400">Москва (VKO) → Стамбул (IST)</p>
+                            </div>
+                            <div class="mt-4 md:mt-0">
+                                <span class="bg-green-900 text-green-300 text-xs px-2 py-1 rounded mr-2">Прямой рейс</span>
+                                <span class="bg-blue-900 text-blue-300 text-xs px-2 py-1 rounded">Вылет по расписанию</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <div class="flex items-center mb-4 md:mb-0">
+                                <img src="https://logo.clearbit.com/turkishairlines.com" alt="Turkish Airlines" class="w-16 h-16 rounded-full mr-4">
+                                <div>
+                                    <h3 class="font-bold">Turkish Airlines</h3>
+                                    <p class="text-gray-400 text-sm">Airbus A321 • Регистрация открыта</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex-1 mx-8 flight-path py-4">
+                                <div class="flex justify-between items-center relative z-10">
+                                    <div class="text-center">
+                                        <div class="font-bold text-xl">06:45</div>
+                                        <div class="text-gray-400">Москва (VKO)</div>
+                                        <div class="text-gray-500 text-sm">15 июн 2023</div>
+                                    </div>
+                                    <div class="text-center px-4">
+                                        <div class="text-gray-400">3ч 15м</div>
+                                        <div class="text-xs text-gray-500">Прямой рейс</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="font-bold text-xl">08:00</div>
+                                        <div class="text-gray-400">Стамбул (IST)</div>
+                                        <div class="text-gray-500 text-sm">15 июн 2023</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Flight Tabs -->
+                    <div class="bg-gray-800 rounded-xl p-6 flight-card mb-6">
+                        <div class="flex border-b border-gray-700 mb-6">
+                            <button class="tab-button active px-4 py-2 mr-4 font-medium" onclick="showTab('details')">Детали рейса</button>
+                        </div>
+                        
+                        <!-- Flight Details Tab -->
+                        <div id="details-tab" class="tab-content">
+                            <h3 class="text-xl font-bold mb-4">Расписание рейса</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div class="info-card rounded-lg p-6">
+                                    <h4 class="font-bold mb-4 flex items-center">
+                                        <i class="fas fa-plane-departure text-red-400 mr-2"></i>
+                                        Вылет
+                                    </h4>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Аэропорт:</span>
+                                            <span>Внуково (VKO), Москва</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Дата и время:</span>
+                                            <span>15 июн 2023, 06:45</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Терминал:</span>
+                                            <span>A</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Регистрация:</span>
+                                            <span>04:45-06:15 (закрывается за 30 мин)</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Посадка:</span>
+                                            <span>06:15</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="info-card rounded-lg p-6">
+                                    <h4 class="font-bold mb-4 flex items-center">
+                                        <i class="fas fa-plane-arrival text-red-400 mr-2"></i>
+                                        Прилет
+                                    </h4>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Аэропорт:</span>
+                                            <span>Стамбул (IST), Новый аэропорт</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Дата и время:</span>
+                                            <span>15 июн 2023, 08:00</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Терминал:</span>
+                                            <span>D</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Получение багажа:</span>
+                                            <span>08:20-08:40</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold mb-4">Багаж</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                                <div class="info-card rounded-lg p-6">
+                                    <h4 class="font-bold mb-4 flex items-center">
+                                        <i class="fas fa-suitcase text-red-400 mr-2"></i>
+                                        Норма провоза багажа
+                                    </h4>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Эконом класс:</span>
+                                            <span>1 место до 23 кг</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Бизнес класс:</span>
+                                            <span>2 места до 32 кг</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Ручная кладь:</span>
+                                            <span>1 место до 8 кг</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="info-card rounded-lg p-6">
+                                    <h4 class="font-bold mb-4 flex items-center">
+                                        <i class="fas fa-exclamation-triangle text-red-400 mr-2"></i>
+                                        Ограничения
+                                    </h4>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Макс. размер багажа:</span>
+                                            <span>158 см (сумма сторон)</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-400">Запрещенные предметы:</span>
+                                            <span>Оружие, жидкости >100мл</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Booking CTA -->
+                    <div class="bg-gradient-to-r from-red-500 to-pink-500 rounded-xl p-6 text-center">
+                        <h3 class="text-xl font-bold mb-4">Готовы отправиться в Стамбул?</h3>
+                        <p class="mb-6">Цена от <span class="font-bold text-2xl">12 300 ₽</span></p>
+                        <button class="bg-white hover:bg-gray-100 text-red-500 font-bold py-3 px-8 rounded-lg transition-colors duration-300">
+                            Забронировать сейчас
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="lg:w-1/3">
+                    <!-- Flight Summary -->
+                    <div class="bg-gray-800 rounded-xl p-6 flight-card sticky top-24">
+                        <h2 class="text-xl font-bold mb-6">Информация о рейсе</h2>
+                        
+                        <div class="flex items-center mb-6">
+                            <img src="https://logo.clearbit.com/turkishairlines.com" alt="Turkish Airlines" class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <h3 class="font-bold">Turkish Airlines</h3>
+                                <p class="text-gray-400 text-sm">TK-415 • Airbus A321</p>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Номер рейса:</span>
+                                <span>TK-415</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Тип самолета:</span>
+                                <span>Airbus A321neo</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Время в пути:</span>
+                                <span>3ч 15м</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Прямой рейс:</span>
+                                <span>Да</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-700 pt-4">
+                            <h3 class="font-bold mb-3">Следующие рейсы</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">16 июн 2023:</span>
+                                    <span>TK-415 (06:45-08:00)</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">17 июн 2023:</span>
+                                    <span>TK-415 (06:45-08:00)</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-400">18 июн 2023:</span>
+                                    <span>TK-417 (10:30-11:45)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">© 2023 SkyJet. Все права защищены.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-white">Политика конфиденциальности</a>
+                    <a href="#" class="text-gray-500 hover:text-white">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active', 'text-white');
+                button.classList.add('text-gray-400');
+            });
+            
+            // Show the current tab and mark button as active
+            document.getElementById(`${tabName}-tab`).style.display = 'block';
+            const activeButton = document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`);
+            activeButton.classList.add('active', 'text-white');
+            activeButton.classList.remove('text-gray-400');
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default tab
+            showTab('details');
+        });
+    </script>
+</body>
+</html>

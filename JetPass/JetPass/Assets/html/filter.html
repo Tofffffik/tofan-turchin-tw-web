@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyJet | Поиск авиабилетов</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        
+        .search-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .ticket-card {
+            transition: all 0.3s ease;
+        }
+        
+        .ticket-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .flight-path {
+            position: relative;
+        }
+        
+        .flight-path::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #ff6b6b 50%, transparent 100%);
+            z-index: 0;
+        }
+        
+        .price-range .thumb {
+            background: #ff6b6b;
+        }
+        
+        .price-range .track {
+            background: #4a5568;
+        }
+        
+        .filter-item:hover {
+            color: white;
+            background-color: #2d3748;
+        }
+        
+        .filter-item.active {
+            color: white;
+            background-color: #ff6b6b;
+        }
+        
+        .sort-option.active {
+            color: #ff6b6b;
+            border-bottom: 2px solid #ff6b6b;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-plane-departure text-3xl text-red-400"></i>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">SkyJet</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-300 hover:text-white font-medium">Поиск билетов</a>
+                    <a href="#" class="text-gray-300 hover:text-white">Акции</a>
+                    <a href="#" class="text-gray-300 hover:text-white">Направления</a>
+                    <a href="#" class="text-gray-300 hover:text-white">Помощь</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="hidden md:block text-gray-300 hover:text-white">
+                        <i class="fas fa-user-circle text-xl"></i>
+                    </a>
+                    <button class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <section class="py-8 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="bg-gray-800 rounded-xl p-6 search-card mb-8">
+                <div class="flex flex-col md:flex-row items-center justify-between mb-6">
+                    <div class="flex space-x-4 mb-4 md:mb-0">
+                        <button class="px-4 py-2 bg-red-500 text-white rounded-lg font-medium">Авиабилеты</button>
+                        <button class="px-4 py-2 text-gray-400 hover:text-white rounded-lg font-medium">Отели</button>
+                        <button class="px-4 py-2 text-gray-400 hover:text-white rounded-lg font-medium">Аренда авто</button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-gray-400">В одну сторону</span>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="text-white">Туда-обратно</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <label class="block text-gray-400 text-sm mb-2">Откуда</label>
+                        <div class="flex items-center">
+                            <i class="fas fa-plane-departure text-red-400 mr-2"></i>
+                            <input type="text" placeholder="Город или аэропорт" class="bg-transparent border-none w-full text-white focus:outline-none" value="Москва">
+                        </div>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <label class="block text-gray-400 text-sm mb-2">Куда</label>
+                        <div class="flex items-center">
+                            <i class="fas fa-plane-arrival text-red-400 mr-2"></i>
+                            <input type="text" placeholder="Город или аэропорт" class="bg-transparent border-none w-full text-white focus:outline-none" value="Стамбул">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-700 rounded-lg p-4">
+                            <label class="block text-gray-400 text-sm mb-2">Туда</label>
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar text-red-400 mr-2"></i>
+                                <input type="text" placeholder="Дата" class="bg-transparent border-none w-full text-white focus:outline-none" value="15 июн 2023">
+                            </div>
+                        </div>
+                        <div class="bg-gray-700 rounded-lg p-4">
+                            <label class="block text-gray-400 text-sm mb-2">Обратно</label>
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar text-red-400 mr-2"></i>
+                                <input type="text" placeholder="Дата" class="bg-transparent border-none w-full text-white focus:outline-none" value="30 июн 2023">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <label class="block text-gray-400 text-sm mb-2">Класс</label>
+                        <div class="flex items-center">
+                            <i class="fas fa-couch text-red-400 mr-2"></i>
+                            <select class="bg-transparent border-none w-full text-white focus:outline-none">
+                                <option>Эконом</option>
+                                <option>Премиум-эконом</option>
+                                <option>Бизнес</option>
+                                <option>Первый класс</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <label class="block text-gray-400 text-sm mb-2">Пассажиры</label>
+                        <div class="flex items-center">
+                            <i class="fas fa-users text-red-400 mr-2"></i>
+                            <input type="text" placeholder="1 взрослый" class="bg-transparent border-none w-full text-white focus:outline-none">
+                        </div>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <label class="block text-gray-400 text-sm mb-2">Авиакомпания</label>
+                        <div class="flex items-center">
+                            <i class="fas fa-building text-red-400 mr-2"></i>
+                            <select class="bg-transparent border-none w-full text-white focus:outline-none">
+                                <option>Любая</option>
+                                <option>Aeroflot</option>
+                                <option>S7 Airlines</option>
+                                <option>Turkish Airlines</option>
+                                <option>Emirates</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <button class="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center">
+                            <i class="fas fa-search mr-2"></i> Найти билеты
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Results Section -->
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- Filters -->
+                <div class="w-full md:w-64 bg-gray-800 rounded-xl p-4 search-card">
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fas fa-sliders-h mr-2 text-red-400"></i>
+                        Фильтры
+                    </h3>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-3">Цена, ₽</h4>
+                        <div class="px-2 mb-2">
+                            <div class="price-range h-1 rounded-full mb-4">
+                                <div class="track"></div>
+                                <div class="thumb left-0"></div>
+                                <div class="thumb right-0"></div>
+                            </div>
+                            <div class="flex justify-between text-sm text-gray-400">
+                                <span>5 000</span>
+                                <span>50 000+</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-3">Авиакомпании</h4>
+                        <div class="space-y-2">
+                            <div class="filter-item flex items-center p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" id="aeroflot" class="mr-3" checked>
+                                <label for="aeroflot" class="flex-1 flex items-center">
+                                    <img src="https://logo.clearbit.com/aeroflot.ru" alt="Aeroflot" class="w-6 h-6 rounded-full mr-2">
+                                    <span>Aeroflot</span>
+                                </label>
+                            </div>
+                            <div class="filter-item flex items-center p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" id="turkish" class="mr-3" checked>
+                                <label for="turkish" class="flex-1 flex items-center">
+                                    <img src="https://logo.clearbit.com/turkishairlines.com" alt="Turkish Airlines" class="w-6 h-6 rounded-full mr-2">
+                                    <span>Turkish Airlines</span>
+                                </label>
+                            </div>
+                            <div class="filter-item flex items-center p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" id="s7" class="mr-3" checked>
+                                <label for="s7" class="flex-1 flex items-center">
+                                    <img src="https://logo.clearbit.com/s7.ru" alt="S7 Airlines" class="w-6 h-6 rounded-full mr-2">
+                                    <span>S7 Airlines</span>
+                                </label>
+                            </div>
+                            <div class="filter-item flex items-center p-2 rounded-lg cursor-pointer">
+                                <input type="checkbox" id="pegas" class="mr-3">
+                                <label for="pegas" class="flex-1 flex items-center">
+                                    <img src="https://logo.clearbit.com/pegasys.tech" alt="Pegas Fly" class="w-6 h-6 rounded-full mr-2">
+                                    <span>Pegas Fly</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-3">Время вылета</h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="filter-item p-2 rounded-lg text-center cursor-pointer active">
+                                Любое
+                            </div>
+                            <div class="filter-item p-2 rounded-lg text-center cursor-pointer">
+                                Утро
+                            </div>
+                            <div class="filter-item p-2 rounded-lg text-center cursor-pointer">
+                                День
+                            </div>
+                            <div class="filter-item p-2 rounded-lg text-center cursor-pointer">
+                                Вечер
+                            </div>
+                            <div class="filter-item p-2 rounded-lg text-center cursor-pointer">
+                                Ночь
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-medium mb-3">Пересадки</h4>
+                        <div class="space-y-2">
+                            <div class="filter-item flex items-center p-2 rounded-lg cursor-pointer active">
+                                <input type="radio" name="stops" id="any" class="mr-3" checked>
+                                <label for="any">Любые</label>
+                            </div>
+                            <div class="filter-item flex items-center p-2 rounded-lg cursor-pointer">
+                                <input type="radio" name="stops" id="direct" class="mr-3">
+                                <label for="direct">Без пересадок</label>
+                            </div>
+                            <div class="filter-item flex items-center p-2 rounded-lg cursor-pointer">
+                                <input type="radio" name="stops" id="one" class="mr-3">
+                                <label for="one">1 пересадка</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg">
+                        Сбросить фильтры
+                    </button>
+                </div>
+                
+                <!-- Results -->
+                <div class="flex-1">
+                    <div class="bg-gray-800 rounded-xl p-6 search-card mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold mb-4 md:mb-0">
+                                Найдено 24 рейса <span class="text-gray-400 text-lg">Москва → Стамбул</span>
+                            </h3>
+                            <div class="flex items-center space-x-4">
+                                <div class="text-gray-400">Сортировать:</div>
+                                <div class="flex space-x-2">
+                                    <button class="sort-option active px-3 py-1">По цене</button>
+                                    <button class="sort-option px-3 py-1">По времени</button>
+                                    <button class="sort-option px-3 py-1">По рейтингу</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Flight 1 -->
+                        <div class="bg-gray-700 rounded-lg p-6 mb-4 ticket-card">
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                                <div class="flex items-center mb-4 md:mb-0">
+                                    <img src="https://logo.clearbit.com/turkishairlines.com" alt="Turkish Airlines" class="w-12 h-12 rounded-full mr-4">
+                                    <div>
+                                        <h4 class="font-bold">Turkish Airlines</h4>
+                                        <p class="text-gray-400 text-sm">TK-415 • Airbus A321</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex-1 mx-8 flight-path py-4">
+                                    <div class="flex justify-between items-center relative z-10">
+                                        <div class="text-center">
+                                            <div class="font-bold text-lg">06:45</div>
+                                            <div class="text-gray-400 text-sm">VKO</div>
+                                        </div>
+                                        <div class="text-center px-4">
+                                            <div class="text-gray-400 text-sm">3ч 15м</div>
+                                            <div class="text-xs text-gray-500">прямой</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="font-bold text-lg">08:00</div>
+                                            <div class="text-gray-400 text-sm">IST</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-col items-end">
+                                    <div class="text-2xl font-bold mb-2">12 300 ₽</div>
+                                    <button class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300">
+                                        Выбрать
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-6 pt-6 border-t border-gray-600">
+                                <div class="mb-2 md:mb-0">
+                                    <div class="flex items-center text-gray-400 mb-1">
+                                        <i class="fas fa-suitcase-rolling mr-2"></i>
+                                        <span>Багаж: 1 место (до 23 кг)</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-400">
+                                        <i class="fas fa-utensils mr-2"></i>
+                                        <span>Питание включено</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="flex items-center text-yellow-400 mr-4">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span class="ml-1 text-gray-400">4.7</span>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-white">
+                                        <i class="far fa-heart text-xl"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Flight 2 -->
+                        <div class="bg-gray-700 rounded-lg p-6 mb-4 ticket-card">
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                                <div class="flex items-center mb-4 md:mb-0">
+                                    <img src="https://logo.clearbit.com/aeroflot.ru" alt="Aeroflot" class="w-12 h-12 rounded-full mr-4">
+                                    <div>
+                                        <h4 class="font-bold">Aeroflot</h4>
+                                        <p class="text-gray-400 text-sm">SU-2130 • Boeing 737</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex-1 mx-8 flight-path py-4">
+                                    <div class="flex justify-between items-center relative z-10">
+                                        <div class="text-center">
+                                            <div class="font-bold text-lg">09:20</div>
+                                            <div class="text-gray-400 text-sm">SVO</div>
+                                        </div>
+                                        <div class="text-center px-4">
+                                            <div class="text-gray-400 text-sm">3ч 40м</div>
+                                            <div class="text-xs text-gray-500">прямой</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="font-bold text-lg">11:00</div>
+                                            <div class="text-gray-400 text-sm">IST</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-col items-end">
+                                    <div class="text-2xl font-bold mb-2">14 500 ₽</div>
+                                    <button class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300">
+                                        Выбрать
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-6 pt-6 border-t border-gray-600">
+                                <div class="mb-2 md:mb-0">
+                                    <div class="flex items-center text-gray-400 mb-1">
+                                        <i class="fas fa-suitcase-rolling mr-2"></i>
+                                        <span>Багаж: 1 место (до 23 кг)</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-400">
+                                        <i class="fas fa-utensils mr-2"></i>
+                                        <span>Питание включено</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="flex items-center text-yellow-400 mr-4">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <span class="ml-1 text-gray-400">4.2</span>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-white">
+                                        <i class="far fa-heart text-xl"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Flight 3 -->
+                        <div class="bg-gray-700 rounded-lg p-6 mb-4 ticket-card">
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                                <div class="flex items-center mb-4 md:mb-0">
+                                    <img src="https://logo.clearbit.com/pegasys.tech" alt="Pegas Fly" class="w-12 h-12 rounded-full mr-4">
+                                    <div>
+                                        <h4 class="font-bold">Pegas Fly</h4>
+                                        <p class="text-gray-400 text-sm">EO-453 • Boeing 737</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex-1 mx-8 flight-path py-4">
+                                    <div class="flex justify-between items-center relative z-10">
+                                        <div class="text-center">
+                                            <div class="font-bold text-lg">15:30</div>
+                                            <div class="text-gray-400 text-sm">DME</div>
+                                        </div>
+                                        <div class="text-center px-4">
+                                            <div class="text-gray-400 text-sm">5ч 10м</div>
+                                            <div class="text-xs text-gray-500">1 пересадка</div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="font-bold text-lg">20:40</div>
+                                            <div class="text-gray-400 text-sm">IST</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-col items-end">
+                                    <div class="text-2xl font-bold mb-2">9 800 ₽</div>
+                                    <button class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300">
+                                        Выбрать
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mt-6 pt-6 border-t border-gray-600">
+                                <div class="mb-2 md:mb-0">
+                                    <div class="flex items-center text-gray-400 mb-1">
+                                        <i class="fas fa-suitcase-rolling mr-2"></i>
+                                        <span>Багаж: 1 место (до 20 кг)</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-400">
+                                        <i class="fas fa-utensils mr-2"></i>
+                                        <span>Питание за доп. плату</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="flex items-center text-yellow-400 mr-4">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                        <span class="ml-1 text-gray-400">3.5</span>
+                                    </div>
+                                    <button class="text-gray-400 hover:text-white">
+                                        <i class="far fa-heart text-xl"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-6">
+                            <button class="bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-300">
+                                Показать еще (21)
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-xl p-6 search-card">
+                        <h3 class="text-xl font-bold mb-6">Лучшие предложения на этом направлении</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center mb-3">
+                                    <img src="https://logo.clearbit.com/turkishairlines.com" alt="Turkish Airlines" class="w-10 h-10 rounded-full mr-3">
+                                    <div>
+                                        <h4 class="font-bold">Turkish Airlines</h4>
+                                        <p class="text-gray-400 text-sm">от 10 500 ₽</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-400 text-sm mb-3">Рейсы каждый день с 6:00 до 23:00</p>
+                                <button class="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-lg text-sm">
+                                    Посмотреть рейсы
+                                </button>
+                            </div>
+                            
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center mb-3">
+                                    <img src="https://logo.clearbit.com/aeroflot.ru" alt="Aeroflot" class="w-10 h-10 rounded-full mr-3">
+                                    <div>
+                                        <h4 class="font-bold">Aeroflot</h4>
+                                        <p class="text-gray-400 text-sm">от 12 000 ₽</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-400 text-sm mb-3">Специальные тарифы по субботам</p>
+                                <button class="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-lg text-sm">
+                                    Посмотреть рейсы
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">© 2023 SkyJet. Все права защищены.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-white">Политика конфиденциальности</a>
+                    <a href="#" class="text-gray-500 hover:text-white">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter items
+            const filterItems = document.querySelectorAll('.filter-item');
+            filterItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (this.classList.contains('active')) {
+                        this.classList.remove('active');
+                    } else {
+                        this.classList.add('active');
+                    }
+                    
+                    // For radio buttons
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        filterItems.forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+            
+            // Sort options
+            const sortOptions = document.querySelectorAll('.sort-option');
+            sortOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    sortOptions.forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Favorite buttons
+            const favoriteButtons = document.querySelectorAll('.fa-heart');
+            favoriteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (this.classList.contains('far')) {
+                        this.classList.remove('far');
+                        this.classList.add('fas', 'text-red-500');
+                    } else {
+                        this.classList.remove('fas', 'text-red-500');
+                        this.classList.add('far');
+                    }
+                });
+            });
+            
+            // Search form submission
+            const searchForm = document.querySelector('.search-card form');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Поиск выполнен! Результаты обновлены.');
+                });
+            }
+            
+            // Choose flight buttons
+            const chooseButtons = document.querySelectorAll('button:contains("Выбрать")');
+            chooseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const flight = this.closest('.ticket-card').querySelector('h4').textContent;
+                    alert(`Вы выбрали рейс ${flight}. Переходим к оформлению...`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

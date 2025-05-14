@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyJet | Админ-панель</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0a0a;
+            color: #f0f0f0;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        
+        .admin-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .flight-row:hover {
+            background-color: #2d3748;
+        }
+        
+        .tab-button.active {
+            border-bottom: 2px solid #ff6b6b;
+            color: white;
+        }
+        
+        .form-input:focus {
+            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.5);
+        }
+        
+        .pagination .active {
+            background-color: #ff6b6b;
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-plane-departure text-3xl text-red-400"></i>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">SkyJet Admin</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden md:flex items-center space-x-2">
+                        <i class="fas fa-user-circle text-xl text-red-400"></i>
+                        <span>Менеджер Иванов</span>
+                    </div>
+                    <button class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg">
+                        Выйти
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Panel -->
+    <section class="py-8 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Sidebar -->
+                <div class="lg:w-64">
+                    <div class="bg-gray-800 rounded-xl p-6 admin-card sticky top-24">
+                        <nav class="space-y-4">
+                            <a href="#" class="flex items-center space-x-3 text-red-400 font-medium">
+                                <i class="fas fa-plane"></i>
+                                <span>Управление рейсами</span>
+                            </a>
+                        </nav>
+                        
+                        <div class="border-t border-gray-700 mt-6 pt-6">
+                            <h3 class="font-bold mb-3">Быстрые действия</h3>
+                            <button onclick="openModal('add-flight')" class="w-full flex items-center justify-center space-x-2 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg mb-3">
+                                <i class="fas fa-plus"></i>
+                                <span>Добавить рейс</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="flex-1">
+                    <!-- Flight Management -->
+                    <div class="bg-gray-800 rounded-xl p-6 admin-card mb-6">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                            <h2 class="text-2xl font-bold">Управление рейсами</h2>
+                            <div class="mt-4 md:mt-0 flex space-x-3">
+                                <div class="relative">
+                                    <input type="text" placeholder="Поиск рейсов..." class="bg-gray-700 border border-gray-600 rounded-lg pl-10 pr-4 py-2 focus:outline-none w-full md:w-64">
+                                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                                </div>
+                                <button class="bg-gray-700 hover:bg-gray-600 px-3 rounded-lg">
+                                    <i class="fas fa-filter"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Tabs -->
+                        <div class="flex border-b border-gray-700 mb-6">
+                            <button class="tab-button active px-4 py-2 mr-4 font-medium" onclick="showTab('all-flights')">Все рейсы</button>
+                            <button class="tab-button px-4 py-2 mr-4 font-medium text-gray-400" onclick="showTab('active')">Активные</button>
+                            <button class="tab-button px-4 py-2 mr-4 font-medium text-gray-400" onclick="showTab('completed')">Завершенные</button>
+                            <button class="tab-button px-4 py-2 font-medium text-gray-400" onclick="showTab('cancelled')">Отмененные</button>
+                        </div>
+                        
+                        <!-- Flights Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="text-left border-b border-gray-700">
+                                    <tr>
+                                        <th class="pb-3 pr-4">Номер</th>
+                                        <th class="pb-3 pr-4">Маршрут</th>
+                                        <th class="pb-3 pr-4">Дата/Время</th>
+                                        <th class="pb-3 pr-4">Самолет</th>
+                                        <th class="pb-3 pr-4">Статус</th>
+                                        <th class="pb-3 pr-4">Места</th>
+                                        <th class="pb-3">Действия</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Flight 1 -->
+                                    <tr class="flight-row border-b border-gray-700">
+                                        <td class="py-4 pr-4">
+                                            <div class="font-medium">TK-415</div>
+                                            <div class="text-gray-400 text-sm">Turkish Airlines</div>
+                                        </td>
+                                        <td class="py-4 pr-4">
+                                            <div class="font-medium">Москва (VKO) → Стамбул (IST)</div>
+                                            <div class="text-gray-400 text-sm">Прямой рейс</div>
+                                        </td>
+                                        <td class="py-4 pr-4">
+                                            <div>15 июн 2023</div>
+                                            <div class="text-gray-400 text-sm">06:45 - 08:00</div>
+                                        </td>
+                                        <td class="py-4 pr-4">
+                                            <div>Airbus A321</div>
+                                            <div class="text-gray-400 text-sm">12/180 мест</div>
+                                        </td>
+                                        <td class="py-4 pr-4">
+                                            <span class="bg-green-900 text-green-300 text-xs px-2 py-1 rounded">По расписанию</span>
+                                        </td>
+                                        <td class="py-4 pr-4">
+                                            <div class="w-full bg-gray-700 rounded-full h-2 mb-1">
+                                                <div class="bg-red-500 h-2 rounded-full" style="width: 75%"></div>
+                                            </div>
+                                            <div class="text-gray-400 text-sm">135/192</div>
+                                        </td>
+                                        <td class="py-4">
+                                            <div class="flex space-x-2">
+                                                <button class="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg" onclick="openModal('edit-flight')">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                </button>
+                                                <button class="p-2 text-red-400 hover:text-white hover:bg-red-500 rounded-lg">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        <div class="flex justify-between items-center mt-6">
+                            <div class="text-gray-400 text-sm">
+                                Показано 1-4 из 124 рейсов
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg pagination active">1</button>
+                                <button class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg pagination">2</button>
+                                <button class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg pagination">3</button>
+                                <span class="flex items-center px-2">...</span>
+                                <button class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg pagination">12</button>
+                                <button class="w-10 h-10 flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-lg">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Flight Modal -->
+    <div id="add-flight-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold">Добавить новый рейс</h3>
+                    <button onclick="closeModal('add-flight')" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Номер рейса</label>
+                            <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input" placeholder="Например: SU-1234">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Авиакомпания</label>
+                            <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                                <option value="">Выберите авиакомпанию</option>
+                                <option value="aeroflot">Aeroflot</option>
+                                <option value="s7">S7 Airlines</option>
+                                <option value="turkish">Turkish Airlines</option>
+                                <option value="ural">Ural Airlines</option>
+                                <option value="pegas">Pegas Fly</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Аэропорт вылета</label>
+                            <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                                <option value="">Выберите аэропорт</option>
+                                <option value="svo">Шереметьево (SVO), Москва</option>
+                                <option value="vko">Внуково (VKO), Москва</option>
+                                <option value="led">Пулково (LED), Санкт-Петербург</option>
+                                <option value="svx">Кольцово (SVX), Екатеринбург</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Аэропорт прилета</label>
+                            <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                                <option value="">Выберите аэропорт</option>
+                                <option value="ist">Стамбул (IST)</option>
+                                <option value="dxb">Дубай (DXB)</option>
+                                <option value="bkk">Бангкок (BKK)</option>
+                                <option value="ayt">Анталья (AYT)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Дата и время вылета</label>
+                            <input type="datetime-local" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Дата и время прилета</label>
+                            <input type="datetime-local" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Тип самолета</label>
+                            <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                                <option value="">Выберите самолет</option>
+                                <option value="a320">Airbus A320</option>
+                                <option value="a321">Airbus A321</option>
+                                <option value="b737">Boeing 737</option>
+                                <option value="b777">Boeing 777</option>
+                                <option value="e170">Embraer 170</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Бизнес-класс мест</label>
+                            <input type="number" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input" placeholder="Количество">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Эконом-класс мест</label>
+                            <input type="number" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input" placeholder="Количество">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Описание рейса</label>
+                        <textarea class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input" rows="3" placeholder="Дополнительная информация о рейсе"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Фото самолета</label>
+                        <div class="flex items-center">
+                            <label class="cursor-pointer">
+                                <div class="bg-gray-700 hover:bg-gray-600 border border-gray-600 rounded-lg px-4 py-3 flex items-center justify-center">
+                                    <i class="fas fa-cloud-upload-alt text-red-400 mr-2"></i>
+                                    <span>Загрузить изображение</span>
+                                </div>
+                                <input type="file" class="hidden" accept="image/*">
+                            </label>
+                            <span class="ml-3 text-gray-400 text-sm">Макс. 5MB</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Багаж (эконом)</label>
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-1">
+                                    <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input" placeholder="Например: 1 место до 23кг">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Багаж (бизнес)</label>
+                            <div class="flex items-center space-x-4">
+                                <div class="flex-1">
+                                    <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input" placeholder="Например: 2 места до 32кг">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Питание</label>
+                            <textarea class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input" rows="2" placeholder="Описание питания на борту"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Развлечения</label>
+                            <textarea class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input" rows="2" placeholder="Развлечения на борту"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Статус рейса</label>
+                            <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                                <option value="scheduled">По расписанию</option>
+                                <option value="checkin">Регистрация</option>
+                                <option value="delayed">Задержан</option>
+                                <option value="cancelled">Отменен</option>
+                                <option value="completed">Завершен</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Цена эконом (₽)</label>
+                            <input type="number" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input" placeholder="Например: 12000">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Цена бизнес (₽)</label>
+                            <input type="number" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input" placeholder="Например: 35000">
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-4 pt-4">
+                        <button type="button" onclick="closeModal('add-flight')" class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium">
+                            Отменить
+                        </button>
+                        <button type="submit" class="px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg font-medium">
+                            Сохранить рейс
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Flight Modal -->
+<!-- Edit Flight Modal -->
+<div id="edit-flight-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-gray-800 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Редактировать рейс TK-415</h3>
+                <button onclick="closeModal('edit-flight')" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <form id="edit-flight-form" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Номер рейса</label>
+                        <input type="text" value="TK-415"
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Авиакомпания</label>
+                        <select
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                            <option value="turkish" selected>Turkish Airlines</option>
+                            <option value="aeroflot">Aeroflot</option>
+                            <option value="s7">S7 Airlines</option>
+                            <option value="ural">Ural Airlines</option>
+                            <option value="pegas">Pegas Fly</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Аэропорт вылета</label>
+                        <select
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                            <option value="vko" selected>Внуково (VKO), Москва</option>
+                            <option value="svo">Шереметьево (SVO), Москва</option>
+                            <option value="led">Пулково (LED), Санкт-Петербург</option>
+                            <option value="svx">Кольцово (SVX), Екатеринбург</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Аэропорт прилета</label>
+                        <select
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                            <option value="ist" selected>Стамбул (IST)</option>
+                            <option value="dxb">Дубай (DXB)</option>
+                            <option value="bkk">Бангкок (BKK)</option>
+                            <option value="ayt">Анталья (AYT)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Дата и время вылета</label>
+                        <input type="datetime-local" value="2023-06-15T06:45"
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Дата и время прилета</label>
+                        <input type="datetime-local" value="2023-06-15T08:00"
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Тип самолета</label>
+                        <select
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                            <option value="a321" selected>Airbus A321</option>
+                            <option value="a320">Airbus A320</option>
+                            <option value="b737">Boeing 737</option>
+                            <option value="b777">Boeing 777</option>
+                            <option value="e170">Embraer 170</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Бизнес-класс мест</label>
+                        <input type="number" value="12"
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Эконом-класс мест</label>
+                        <input type="number" value="180"
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-400 text-sm mb-2">Описание рейса</label>
+                    <textarea
+                        class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                        rows="3">Прямой рейс из Москвы в Стамбул на комфортабельном Airbus A321. Время в пути - 3 часа 15 минут.</textarea>
+                </div>
+
+                <div>
+                    <label class="block text-gray-400 text-sm mb-2">Фото самолета</label>
+                    <div class="flex items-center">
+                        <div class="relative mr-4">
+                            <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                                alt="Airbus A321" class="w-32 h-24 object-cover rounded-lg">
+                            <button
+                                class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                                <i class="fas fa-times text-xs"></i>
+                            </button>
+                        </div>
+                        <label class="cursor-pointer">
+                            <div
+                                class="bg-gray-700 hover:bg-gray-600 border border-gray-600 rounded-lg px-4 py-3 flex items-center justify-center">
+                                <i class="fas fa-cloud-upload-alt text-red-400 mr-2"></i>
+                                <span>Изменить изображение</span>
+                            </div>
+                            <input type="file" class="hidden" accept="image/*">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Багаж (эконом)</label>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-1">
+                                <input type="text" value="1 место до 23кг"
+                                    class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Багаж (бизнес)</label>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-1">
+                                <input type="text" value="2 места до 32кг"
+                                    class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Питание</label>
+                        <textarea
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                            rows="2">Горячий завтрак, напитки (алкогольные и безалкогольные), специальное питание по запросу</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Развлечения</label>
+                        <textarea
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                            rows="2">Персональные экраны, фильмы, сериалы, музыка, карта полета в реальном времени</textarea>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Статус рейса</label>
+                        <select
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                            <option value="scheduled" selected>По расписанию</option>
+                            <option value="checkin">Регистрация</option>
+                            <option value="delayed">Задержан</option>
+                            <option value="cancelled">Отменен</option>
+                            <option value="completed">Завершен</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Цена эконом (₽)</label>
+                        <input type="number" value="12300"
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Цена бизнес (₽)</label>
+                        <input type="number" value="28500"
+                            class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-4 pt-4">
+                    <button type="button" onclick="closeModal('edit-flight')"
+                        class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium">
+                        Отменить
+                    </button>
+                    <button type="submit"
+                        class="px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg font-medium">
+                        Сохранить изменения
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Дополнительный JavaScript для обработки формы редактирования
+        document.addEventListener('DOMContentLoaded', function () {
+            const editFlightForm = document.getElementById('edit-flight-form');
+
+            if (editFlightForm) {
+                editFlightForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    // Здесь будет код для сохранения изменений
+                    alert('Изменения в рейсе TK-415 успешно сохранены!');
+                    closeModal('edit-flight');
+
+                    // В реальном приложении здесь будет:
+                    // 1. Сбор данных формы
+                    // 2. Отправка на сервер
+                    // 3. Обновление таблицы рейсов
+                    // 4. Обработка ошибок
+                });
+            }
+
+            // Функция для открытия модального окна редактирования с данными конкретного рейса
+            window.openEditModalWithData = function (flightId) {
+                // В реальном приложении здесь будет:
+                // 1. Запрос к API для получения данных рейса
+                // 2. Заполнение формы полученными данными
+                // 3. Открытие модального окна
+
+                // Пример заполнения данными (в реальности будет динамически)
+                openModal('edit-flight');
+            };
+        });
+
+        // Пример вызова для конкретного рейса (обычно вызывается при клике на кнопку "Редактировать")
+        function editFlight(flightId) {
+            // В реальном приложении сначала загружаем данные рейса
+            console.log('Редактирование рейса с ID:', flightId);
+            openEditModalWithData(flightId);
+        }
+    </script> <!-- Similar to Add Flight Modal but with prefilled data -->
+    <!-- Content would be loaded dynamically via JavaScript -->
+</div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-plane-departure text-2xl text-red-400"></i>
+                        <h3
+                            class="text-xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">
+                            SkyJet</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">Лучший сервис по поиску и бронированию авиабилетов</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Компания</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">О нас</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Карьера</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Блог</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Партнеры</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Помощь</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Центр поддержки</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Безопасность</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Контакты</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Контакты</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-map-marker-alt mr-2"></i> Москва, ул. Тверская, 15
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-phone-alt mr-2"></i> +7 (495) 123-45-67
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-envelope mr-2"></i> info@skyjet.ru
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">© 2023 SkyJet. Все права защищены.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-white">Политика конфиденциальности</a>
+                    <a href="#" class="text-gray-500 hover:text-white">Условия использования</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            // In a real app, this would load different flight data
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active', 'text-white');
+                button.classList.add('text-gray-400');
+            });
+            
+            document.querySelector(`.tab-button[onclick="showTab('${tabName}')"]`).classList.add('active', 'text-white');
+        }
+        
+        // Modal control
+        function openModal(modalName) {
+            document.getElementById(`${modalName}-modal`).classList.remove('hidden');
+        }
+        
+        function closeModal(modalName) {
+            document.getElementById(`${modalName}-modal`).classList.add('hidden');
+        }
+        
+        // Form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add flight form
+            const addFlightForm = document.querySelector('#add-flight-modal form');
+            if (addFlightForm) {
+                addFlightForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Рейс успешно добавлен!');
+                    closeModal('add-flight');
+                    // In real app, would refresh flight list
+                });
+            }
+            
+            // Edit flight form would be similar
+        });
+    </script>
+</body>
+</html>
