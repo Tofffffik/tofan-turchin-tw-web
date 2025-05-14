@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "SkyJet | Flight Tickets Worldwide";
+    <link rel="stylesheet" href="~/Assets/CSS/main.css">
+}
+@model List<JetPass.Core.DTOs.FlightDto>
+
+<!-- Hero Section -->
+<section class="relative overflow-hidden">
+    <div class="gradient-bg">
+        <div class="container mx-auto px-4 py-16 md:py-24">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Travel with <span
+                        class="bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">comfort</span>
+                </h2>
+                <p class="text-lg text-gray-400 mb-8">Find the best flight ticket deals worldwide with our service</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Flight Tickets -->
+<section class="py-24 bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-12">
+            <h2 class="text-3xl font-bold">Best Offers</h2>
+        </div>
+        <div id="flights-container">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var obj in Model)
+                {
+                    <div class="bg-gray-800 rounded-xl p-4 sm:p-6 mb-6 ticket-card">
+                        <div class="flex flex-col lg:flex-row justify-between items-start">
+                            <!-- Airline Info -->
+                            <div class="flex items-center mb-4 lg:mb-0 w-full lg:w-auto">
+                                <img src="https://logo.clearbit.com/@(obj.AirLine.Replace(" ", "").ToLower()).com" alt="@obj.AirLine"
+                                     class="w-10 h-10 sm:w-12 sm:h-12 rounded-full mr-3 sm:mr-4">
+                                <div>
+                                    <h3 class="font-bold text-sm sm:text-base">@obj.AirLine</h3>
+                                    <p class="text-gray-400 text-xs sm:text-sm">@obj.AirCraft</p>
+                                </div>
+                            </div>
+
+                            <!-- Flight Path -->
+                            <div class="flex-1 mx-0 sm:mx-4 lg:mx-8 flight-path py-3 sm:py-4 w-full lg:w-auto">
+                                <div class="flex justify-between items-center relative z-10">
+                                    <div class="text-center min-w-[60px]">
+                                        <div class="font-bold text-sm sm:text-base">@obj.DepartureTime.ToString("dd.MM.yy")</div>
+                                        <div class="font-bold text-base sm:text-lg">@obj.DepartureTime.ToString("HH:mm")</div>
+                                        <div class="text-gray-400 text-xs sm:text-sm">@obj.DepartureAirport</div>
+                                    </div>
+                                    <div class="text-center px-2 sm:px-4 flex-1 max-w-[120px]">
+                                        <div class="text-gray-400 text-xs sm:text-sm">@obj.Duration</div>
+                                    </div>
+                                    <div class="text-center min-w-[60px]">
+                                        <div class="font-bold text-sm sm:text-base">@obj.ArrivalTime.ToString("dd.MM.yy")</div>
+                                        <div class="font-bold text-base sm:text-lg">@obj.ArrivalTime.ToString("HH:mm")</div>
+                                        <div class="text-gray-400 text-xs sm:text-sm">@obj.ArrivalAirport</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Price and Buy Button -->
+                            <div class="w-full lg:w-auto mt-4 lg:mt-0">
+                                <div class="row d-flex flex-row align-items-center d-lg-flex flex-lg-column">
+                                    <div class="col-6 col-lg-12 price-tag text-white font-bold text-lg sm:text-xl px-3 py-1 sm:px-4 sm:py-2 rounded-lg mb-2 mb-lg-2">
+                                        @obj.Price $
+                                    </div>
+                                    <div class="col-6 col-lg-12">
+                                        <form method="get" action="@Url.Action("Flight", "Flights", new { id = obj.Id })">
+                                            <input type="hidden" name="flightId" value="@obj.Id" />
+                                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 sm:py-2 px-4 sm:px-6 rounded-lg transition-colors duration-300 w-full text-sm sm:text-base">
+                                                Buy
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="bg-gray-800 rounded-xl p-8 text-center">
+                    <div class="flex flex-col items-center justify-center">
+                        <i class="fas fa-plane-slash text-5xl text-gray-500 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-300 mb-2">No flights available</h3>
+                        <p class="text-gray-400">We couldn't find any flight recommendations matching your criteria.</p>
+                        <p class="text-gray-400 mt-2">Please try adjusting your search or check back later.</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

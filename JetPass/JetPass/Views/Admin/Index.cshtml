@@ -1,0 +1,362 @@
+@using JetPass.Core.Enums
+@{
+    ViewBag.Title = "SkyJet | Admin Panel";
+    <link rel="stylesheet" href="~/Assets/CSS/admin.css?v=@DateTime.Now.Ticks">
+    <script src="~/Assets/Scripts/admin.js?v=@DateTime.Now.Ticks"></script>
+}
+@model List<JetPass.Core.DTOs.FlightDto>
+
+<!-- Admin Panel -->
+<section class="py-44 bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row gap-6">
+            <!-- Main Content -->
+            <div class="flex-1">
+                <!-- Flight Management -->
+                <div class="bg-gray-800 rounded-xl p-6 admin-card mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                        <h2 class="text-2xl font-bold mb-3 md:mb-0">Flight Management</h2>
+                        <div
+                            class="flex flex-col md:flex-row items-start md:items-center w-full md:w-auto space-y-3 md:space-y-0 md:space-x-3">
+                            <button onclick="openModal('add-flight')"
+                                    class="w-full md:w-auto flex items-center justify-center space-x-2 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg">
+                                <i class="fas fa-plus"></i>
+                                <span>Add Flight</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <!-- Tabs -->
+                    <div class="flex border-b border-gray-700 mb-6">
+                        <button class="tab-button active px-4 py-2 mr-4 font-medium" onclick="showTab('all-flights')">
+                            All Flights
+                        </button>
+                    </div>
+
+                    <!-- Flights Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="text-left border-b border-gray-700">
+                            <tr>
+                                <th class="pb-3 pr-4">Number</th>
+                                <th class="pb-3 pr-4">Route</th>
+                                <th class="pb-3 pr-4">Date/Time</th>
+                                <th class="pb-3 pr-4">Aircraft</th>
+                                <th class="pb-3 pr-4">Status</th>
+                                <th class="pb-3">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var flight in Model)
+                            {
+                                <tr class="flight-row border-b border-gray-700" data-flight-id="@flight.Id">
+                                    <td class="py-4 pr-4">
+                                        <div class="font-medium">@flight.FlightNumber</div>
+                                        <div class="text-gray-400 text-sm">@flight.AirLine</div>
+                                    </td>
+                                    <td class="py-4 pr-4">
+                                        <div class="font-medium">@flight.DepartureAirport - @flight.ArrivalAirport</div>
+                                        <div class="text-gray-400 text-sm">@flight.FlightDescription</div>
+                                    </td>
+                                    <td class="py-4 pr-4">
+                                        <div>@flight.DepartureTime.ToString("dd MMM yyyy")</div>
+                                        <div
+                                            class="text-gray-400 text-sm">@flight.DepartureTime.ToString("HH:mm") - @flight.ArrivalTime.ToString("HH:mm")</div>
+                                    </td>
+                                    <td class="py-4 pr-4">
+                                        <div>@flight.AirCraft</div>
+                                    </td>
+                                    <td class="py-4 pr-4">
+                                        @{
+                                            var statusClass = "bg-gray-700 text-gray-300";
+                                            switch (flight.Status)
+                                            {
+                                                case FlightStatus.OnSchedule:
+                                                    statusClass = "bg-green-900 text-green-300";
+                                                    break;
+                                                case FlightStatus.Delayed:
+                                                    statusClass = "bg-yellow-900 text-yellow-300";
+                                                    break;
+                                                case FlightStatus.Cancelled:
+                                                    statusClass = "bg-red-900 text-red-300";
+                                                    break;
+                                                case FlightStatus.Boarding:
+                                                    statusClass = "bg-blue-900 text-blue-300";
+                                                    break;
+                                            }
+                                        }
+                                        <span
+                                            class="text-xs px-2 py-1 rounded @statusClass">@flight.Status.ToString()</span>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex space-x-2">
+                                            <button
+                                                class="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg edit-flight"
+                                                data-flight-id="@flight.Id">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button
+                                                class="p-2 text-red-400 hover:text-white hover:bg-red-500 rounded-lg delete-flight"
+                                                data-flight-id="@flight.Id">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Add Flight Modal -->
+<div id="add-flight-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-gray-800 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Add New Flight</h3>
+                <button onclick="closeModal('add-flight')" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <form class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Airline</label>
+                        <input type="text" name="AirLine"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                               placeholder="e.g., Aeroflot">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Flight Number</label>
+                        <input type="text" name="FlightNumber"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                               placeholder="e.g., SU-1234">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Aircraft</label>
+                        <input type="text" name="AirCraft"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                               placeholder="e.g., Boeing 737-800">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Status</label>
+                        <select name="Status"
+                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                            <option value="OnSchedule">On Schedule</option>
+                            <option value="Delayed">Delayed</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Boarding">Boarding</option>
+                            <option value="Departed">Departed</option>
+                            <option value="Landed">Landed</option>
+                            <option value="Diverted">Diverted</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Departure Airport</label>
+                        <input type="text" name="DepartureAirport"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                               placeholder="e.g., SVO">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Arrival Airport</label>
+                        <input type="text" name="ArrivalAirport"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                               placeholder="e.g., JFK">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Departure Time</label>
+                        <input type="datetime-local" name="DepartureTime"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Arrival Time</label>
+                        <input type="datetime-local" name="ArrivalTime"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-400 text-sm mb-2">Flight Description</label>
+                    <textarea name="FlightDescription"
+                              class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                              rows="3" placeholder="Additional flight information"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Price (₽)</label>
+                        <input type="number" name="Price"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                               placeholder="e.g., 15000">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Airline Image</label>
+                        <div class="flex items-center">
+                            <label class="cursor-pointer">
+                                <div
+                                    class="bg-gray-700 hover:bg-gray-600 border border-gray-600 rounded-lg px-4 py-3 flex items-center justify-center">
+                                    <i class="fas fa-cloud-upload-alt text-red-400 mr-2"></i>
+                                    <span>Upload image</span>
+                                </div>
+                                <input type="file" name="AirLineImage" class="hidden" accept="image/*">
+                            </label>
+                            <span class="ml-3 text-gray-400 text-sm">Max. 5MB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-4 pt-4">
+                    <button type="button" onclick="closeModal('add-flight')"
+                            class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg font-medium">
+                        Save Flight
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Flight Modal -->
+<div id="edit-flight-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-gray-800 rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold">Edit Flight <span id="edit-flight-number"></span></h3>
+                <button onclick="closeModal('edit-flight')" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <form id="edit-flight-form" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Airline</label>
+                        <input type="text" name="AirLine"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Flight Number</label>
+                        <input type="text" name="FlightNumber"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Aircraft</label>
+                        <input type="text" name="AirCraft"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Status</label>
+                        <select name="Status"
+                                class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                            <option value="OnSchedule">On Schedule</option>
+                            <option value="Delayed">Delayed</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Boarding">Boarding</option>
+                            <option value="Departed">Departed</option>
+                            <option value="Landed">Landed</option>
+                            <option value="Diverted">Diverted</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Departure Airport</label>
+                        <input type="text" name="DepartureAirport"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Arrival Airport</label>
+                        <input type="text" name="ArrivalAirport"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Departure Time</label>
+                        <input type="datetime-local" name="DepartureTime"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Arrival Time</label>
+                        <input type="datetime-local" name="ArrivalTime"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-400 text-sm mb-2">Flight Description</label>
+                    <textarea name="FlightDescription"
+                              class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input"
+                              rows="3"></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Price (₽)</label>
+                        <input type="number" name="Price"
+                               class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none form-input">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Airline Image</label>
+                        <div class="flex items-center">
+                            <div id="current-image-preview" class="hidden mr-4">
+                                <img id="current-image" class="w-32 h-24 object-cover rounded-lg">
+                                <button type="button" onclick="removeImage()"
+                                        class="absolute -mt-6 ml-28 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                                    <i class="fas fa-times text-xs"></i>
+                                </button>
+                            </div>
+                            <label class="cursor-pointer">
+                                <div
+                                    class="bg-gray-700 hover:bg-gray-600 border border-gray-600 rounded-lg px-4 py-3 flex items-center justify-center">
+                                    <i class="fas fa-cloud-upload-alt text-red-400 mr-2"></i>
+                                    <span id="upload-label">Upload image</span>
+                                </div>
+                                <input type="file" name="AirLineImage" class="hidden" accept="image/*"
+                                       onchange="previewImage(this)">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-4 pt-4">
+                    <button type="button" onclick="closeModal('edit-flight')"
+                            class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg font-medium">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

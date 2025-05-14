@@ -1,0 +1,106 @@
+@{
+    ViewBag.Title = "SkyJet | Flights";
+    <link rel="stylesheet" href="~/Assets/CSS/flight.css">
+    <script src="~/Assets/Scripts/flights.js?v=@DateTime.Now.Ticks"></script>
+}
+
+<!-- Search Section -->
+<section class="py-8 bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="bg-gray-800 rounded-xl p-6 search-card mb-8">
+            <div class="flex flex-col md:flex-row items-center justify-between mb-6">
+                <div class="flex space-x-4 mb-4 md:mb-0">
+                    <button class="px-4 py-2 bg-red-500 text-white rounded-lg font-medium">Flights</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <label class="block text-gray-400 text-sm mb-2">From</label>
+                    <div class="flex items-center">
+                        <i class="fas fa-plane-departure text-red-400 mr-2"></i>
+                        <input type="text" placeholder="City or airport"
+                               class="bg-transparent border-none w-full text-white focus:outline-none" value="">
+                    </div>
+                </div>
+                <div class="bg-gray-700 rounded-lg p-4">
+                    <label class="block text-gray-400 text-sm mb-2">To</label>
+                    <div class="flex items-center">
+                        <i class="fas fa-plane-arrival text-red-400 mr-2"></i>
+                        <input type="text" placeholder="City or airport"
+                               class="bg-transparent border-none w-full text-white focus:outline-none" value="">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <label class="block text-gray-400 text-sm mb-2">Departure</label>
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar text-red-400 mr-2"></i>
+                            <input type="date"
+                                   class="bg-transparent border-none w-full text-white focus:outline-none"
+                                   value="">
+                        </div>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <label class="block text-gray-400 text-sm mb-2">Return</label>
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar text-red-400 mr-2"></i>
+                            <input type="date"
+                                   class="bg-transparent border-none w-full text-white focus:outline-none"
+                                   value="">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="flex items-center">
+                    <button
+                        class="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold py-4 px-6 rounded-lg transition-all duration-300 flex items-center justify-center">
+                        <i class="fas fa-search mr-2"></i> Find Tickets
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="flex flex-col md:flex-row gap-3">
+            <!-- Filters -->
+            <div class="w-full md:w-64 bg-gray-800 rounded-xl p-4 search-card">
+                <h3 class="font-bold text-lg mb-4 flex items-center">
+                    <i class="fas fa-sliders-h mr-2 text-red-400"></i>
+                    Filters
+                </h3>
+
+                <div class="mb-6">
+                    <h4 class="font-medium mb-3">Price $</h4>
+                    <div class="px-2 mb-2">
+                        <div class="flex gap-4 mb-4">
+                            <input type="number" min="0" placeholder="Min"
+                                   class="w-full bg-gray-700 text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400">
+                            <input type="number" min="0" placeholder="Max"
+                                   class="w-full bg-gray-700 text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400">
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-400">
+                            <span>1</span>
+                            <span>50 000+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="flex-1">
+                <div class="bg-gray-800 rounded-xl p-6 search-card mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold mb-4 md:mb-0">
+                            Found 0 flights <span class="text-gray-400 text-lg"></span>
+                        </h3>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

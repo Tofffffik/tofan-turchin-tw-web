@@ -1,0 +1,131 @@
+@{
+    ViewBag.Title = "SkyJet | Book a flight";
+    <link rel="stylesheet" href="~/Assets/CSS/bookings.css?v=@DateTime.Now.Ticks">
+    <script src="~/Assets/Scripts/bookings.js?v=@DateTime.Now.Ticks"></script>
+}
+@model JetPass.Core.DTOs.FlightAndBookingDto
+
+<!-- Booking Section -->
+<section class="py-8 bg-gray-900">
+    <div class="container mx-auto px-4 max-w-3xl">
+        <!-- Flight Info -->
+        <div class="bg-gray-800 rounded-xl p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Your Flight</h2>
+            <div class="bg-gray-700 rounded-lg p-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div class="flex items-center mb-4 md:mb-0">
+                        <img src="https://logo.clearbit.com/@(Model.Flight.AirLine.Replace(" ", "").ToLower()).com"
+                             alt="@Model.Flight.AirLine"
+                             class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">@Model.Flight.AirLine</h4>
+                            <p class="text-gray-400 text-sm">@Model.Flight.FlightNumber - @Model.Flight.AirCraft</p>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 mx-8 flight-path py-4">
+                        <div class="flex justify-between items-center relative z-10">
+                            <div class="text-center">
+                                <div class="font-bold text-lg">@Model.Flight.DepartureTime.ToString("HH:mm")</div>
+                                <div class="text-gray-400 text-sm">@Model.Flight.DepartureAirport</div>
+                                <div
+                                    class="text-gray-500 text-xs">@Model.Flight.DepartureTime.ToString("dd MMM yyyy")</div>
+                            </div>
+                            <div class="text-center px-4">
+                                <div class="text-gray-400 text-sm">
+                                    @Model.Flight.Duration
+                                </div>
+                                <div class="text-xs text-gray-500">direct</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="font-bold text-lg">@Model.Flight.ArrivalTime.ToString("HH:mm")</div>
+                                <div class="text-gray-400 text-sm">@Model.Flight.ArrivalAirport</div>
+                                <div
+                                    class="text-gray-500 text-xs">@Model.Flight.ArrivalTime.ToString("dd MMM yyyy")</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Passenger Info -->
+        <div class="bg-gray-800 rounded-xl p-6">
+            <h2 class="text-xl font-bold mb-6">Passenger Details</h2>
+
+            @using (Html.BeginForm("SendData", "Bookings",  FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Booking.IdFlight, new { Value = Model.Flight.Id }) 
+                
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">First Name (as in passport)</label>
+                            @Html.TextBoxFor(m => m.Booking.Name, new
+                            {
+                                @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none",
+                                required = "required"
+                            })
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Last Name (as in passport)</label>
+                            @Html.TextBoxFor(m => m.Booking.LastName, new
+                            {
+                                @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none",
+                                required = "required"
+                            })
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Citizenship</label>
+                            @Html.TextBoxFor(m => m.Booking.Citizenship, new
+                            {
+                                @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none",
+                                required = "required"
+                            })
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Passport Number</label>
+                            @Html.TextBoxFor(m => m.Booking.PassportNumber, new
+                            {
+                                @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none",
+                                required = "required"
+                            })
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <h3 class="text-lg font-bold mb-4">Contact Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-gray-400 text-sm mb-2">Email</label>
+                                @Html.TextBoxFor(m => m.Booking.Email, new
+                                {
+                                    @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none",
+                                    type = "email",
+                                    required = "required"
+                                })
+                            </div>
+                            <div>
+                                <label class="block text-gray-400 text-sm mb-2">Phone</label>
+                                @Html.TextBoxFor(m => m.Booking.Phone, new
+                                {
+                                    @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none",
+                                    type = "tel",
+                                    required = "required"
+                                })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6">
+                        <button type="submit"
+                                class="w-full px-6 py-4 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 rounded-lg font-bold text-lg">
+                            Proceed to Payment
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

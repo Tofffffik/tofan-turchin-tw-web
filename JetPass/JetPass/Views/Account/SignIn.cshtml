@@ -1,0 +1,119 @@
+@{
+    ViewBag.Title = "SkyJet | Sign In";
+    Layout = null;
+}
+
+@model JetPass.Core.DTOs.SignInDto
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyJet | Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/Assets/CSS/signIn.css?v=@DateTime.Now.Ticks">
+</head>
+
+<body class="flex flex-col min-h-screen">
+<!-- Header -->
+<header class="gradient-bg sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-plane-departure text-3xl text-red-400"></i>
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">
+                    SkyJet</h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="@Url.Action("Index","Flights")" class="nav-link text-gray-300 hover:text-white">Search Tickets</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="@Url.Action("SignUp","Account")" class="hidden md:block text-gray-300 hover:text-white">
+                    Sign Up
+                </a>
+                <button class="md:hidden text-gray-300 hover:text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+<main class="flex-grow">
+    <!-- Auth Section -->
+    <section class="py-24 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="max-w-md mx-auto bg-gray-800 rounded-xl shadow-xl overflow-hidden auth-card">
+                <div class="p-8">
+                    <div class="flex justify-center mb-8">
+                        <i class="fas fa-plane-departure text-5xl text-red-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-center mb-6">Log in to your account</h2>
+
+                    @using (Html.BeginForm("SignIn", "Account", FormMethod.Post, new { id = "signInForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm mb-2" for="EmailOrPhoneNumber">Email or phone</label>
+                            @Html.TextBoxFor(m => m.EmailOrPhoneNumber, new
+                            {
+                                @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field",
+                                placeholder = "example@mail.com or +7 (999) 123-45-67",
+                                required = "required"
+                            })
+                            <span class="text-red-500 text-sm hidden mt-1" id="EmailOrPhoneNumber-error"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm mb-2" for="Password">Password</label>
+                            @Html.PasswordFor(m => m.Password, new
+                            {
+                                @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field",
+                                placeholder = "Your password",
+                                required = "required"
+                            })
+                            <span class="text-red-500 text-sm hidden mt-1" id="Password-error"></span>
+                        </div>
+
+                        <div class="mb-6 flex justify-between items-center">
+                            <div class="flex items-center">
+                                @Html.CheckBoxFor(m => m.RememberMe, new
+                                {
+                                    @class = "mr-2 bg-gray-700 border-gray-600 text-red-500 focus:ring-red-500",
+                                    id = "RememberMe"
+                                })
+                                <label for="RememberMe" class="text-gray-400 text-sm">Remember me</label>
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                                class="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 mb-4">
+                            Log in
+                        </button>
+
+                        <div class="text-center text-gray-400">
+                            Don't have an account? <a href="@Url.Action("SignUp","Account")"
+                                                    class="text-red-400 hover:underline">Sign Up</a>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="bg-gray-700 px-8 py-4">
+                    <div class="text-center text-gray-400 text-sm">
+                        Log in to access personal discounts, booking history, and faster ticket purchasing.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<!-- Footer -->
+<footer class="bg-gray-900 py-16">
+</footer>
+<script src="~/Assets/Scripts/signIn.js?v=@DateTime.Now.Ticks"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+@{
+    ViewBag.Title = "SkyJet | Sign Up";
+    Layout = null;
+}
+
+@model JetPass.Core.DTOs.SignUpDto
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyJet | Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/Assets/CSS/signUp.css?v=@DateTime.Now.Ticks">
+</head>
+
+<body class="min-h-screen">
+<!-- Header -->
+<header class="gradient-bg sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+            <a href="@Url.Action("Index", "Home")">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-plane-departure text-3xl text-red-400"></i>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">
+                        SkyJet</h1>
+                </div>
+            </a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="@Url.Action("Index", "Flights")" class="nav-link text-gray-300 hover:text-white">Search
+                    Tickets</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <a href="@Url.Action("SignIn", "Account")" class="hidden md:block text-gray-300 hover:text-white">
+                    Sign In
+                </a>
+                <button class="md:hidden text-gray-300 hover:text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Auth Section -->
+<section class="py-16 bg-gray-900">
+    <div class="container mx-auto px-4">
+        <div class="max-w-md mx-auto bg-gray-800 rounded-xl shadow-xl overflow-hidden auth-card">
+            <div class="p-8">
+                <div class="flex justify-center mb-8">
+                    <i class="fas fa-plane-departure text-5xl text-red-400"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-center mb-6">Create an account</h2>
+
+                @using (Html.BeginForm("SignUp", "Account", FormMethod.Post, new { id = "signUpForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-4">
+                        <label class="block text-gray-400 text-sm mb-2" for="Name">Name</label>
+                        @Html.TextBoxFor(m => m.Name, new
+                        {
+                            @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field",
+                            placeholder = "Your name",
+                            required = "required"
+                        })
+                        <span class="text-red-500 text-sm hidden" id="Name-error"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-400 text-sm mb-2" for="Email">Email</label>
+                        @Html.TextBoxFor(m => m.Email, new
+                        {
+                            @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field",
+                            placeholder = "example@mail.com",
+                            type = "email",
+                            required = "required"
+                        })
+                        <span class="text-red-500 text-sm hidden" id="Email-error"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-400 text-sm mb-2" for="PhoneNumber">Phone</label>
+                        @Html.TextBoxFor(m => m.PhoneNumber, new
+                        {
+                            @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field",
+                            placeholder = "+7 (999) 123-45-67",
+                            type = "tel",
+                            required = "required",
+                            pattern = "^\\+?[0-9\\s\\-\\(\\)]{10,20}$"
+                        })
+                        <span class="text-red-500 text-sm hidden" id="PhoneNumber-error"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-400 text-sm mb-2" for="Password">Password</label>
+                        @Html.PasswordFor(m => m.Password, new
+                        {
+                            @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field",
+                            placeholder = "At least 8 characters",
+                            required = "required",
+                            minlength = "8"
+                        })
+                        <span class="text-red-500 text-sm hidden" id="Password-error"></span>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-gray-400 text-sm mb-2" for="RepeatPassword">Confirm password</label>
+                        @Html.PasswordFor(m => m.RepeatPassword, new
+                        {
+                            @class = "w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none input-field",
+                            placeholder = "Repeat password",
+                            required = "required"
+                        })
+                        <span class="text-red-500 text-sm hidden" id="RepeatPassword-error"></span>
+                    </div>
+
+                    <div class="mb-6 flex items-center">
+                        @Html.CheckBoxFor(m => m.AgreeToTermsOfService, new
+                        {
+                            @class = "mr-2 bg-gray-700 border-gray-600 text-red-500 focus:ring-red-500",
+                            id = "AgreeToTermsOfService"
+                        })
+                        <label for="AgreeToTermsOfService" class="text-gray-400 text-sm">I agree with <a href="#"
+                                                                                                         class="text-red-400 hover:underline">terms
+                                of use</a> and <a href="#"
+                                                  class="text-red-400 hover:underline">privacy policy</a></label>
+                        <span class="text-red-500 text-sm hidden" id="AgreeToTermsOfService-error"></span>
+                    </div>
+
+                    <button type="submit"
+                            class="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 mb-4">
+                        Sign up
+                    </button>
+
+                    <div class="text-center text-gray-400">
+                        Already have an account? <a href="@Url.Action("SignIn", "Account")"
+                                                    class="text-red-400 hover:underline">Sign In</a>
+                    </div>
+                }
+            </div>
+
+            <div class="bg-gray-700 px-8 py-4">
+                <div class="text-center text-gray-400 text-sm">
+                    By registering, you gain access to personal discounts, booking history, and quick ticket checkout.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Assets/Scripts/signUp.js?v=@DateTime.Now.Ticks"></script>
+</body>
+</html>
