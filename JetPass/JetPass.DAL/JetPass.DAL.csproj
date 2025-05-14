@@ -46,6 +46,12 @@
         <Compile Include="Repositories\FlightsRepository.cs" />
         <Compile Include="Repositories\UsersRepository.cs" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\JetPass.Core\JetPass.Core.csproj">
+        <Project>{3b2035f2-40c8-425a-b3f6-32936841eef1}</Project>
+        <Name>JetPass.Core</Name>
+      </ProjectReference>
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.

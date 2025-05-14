@@ -184,6 +184,20 @@
     <ItemGroup>
         <None Include="packages.config"/>
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\JetPass.BusinessLogic\JetPass.BusinessLogic.csproj">
+        <Project>{8dc1673a-4b8e-4af3-9987-f0c1ed80e92c}</Project>
+        <Name>JetPass.BusinessLogic</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\JetPass.Core\JetPass.Core.csproj">
+        <Project>{3b2035f2-40c8-425a-b3f6-32936841eef1}</Project>
+        <Name>JetPass.Core</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\JetPass.DAL\JetPass.DAL.csproj">
+        <Project>{79944129-732f-4034-8672-b8bbff340b80}</Project>
+        <Name>JetPass.DAL</Name>
+      </ProjectReference>
+    </ItemGroup>
     <PropertyGroup>
         <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
         <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
