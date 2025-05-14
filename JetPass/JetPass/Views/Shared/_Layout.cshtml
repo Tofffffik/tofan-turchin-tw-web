@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @RenderSection("Styles", required: false)
+</head>
+<body class="min-h-screen">
+
+@Html.Partial("~/Views/Shared/Partials/Header.cshtml")
+
+<main class="flex-grow">
+    @RenderBody()
+</main>
+
+@Html.Partial("~/Views/Shared/Partials/Footer.cshtml")
+
+@RenderSection("Scripts", required: false)
+
+</body>
+
+</html>

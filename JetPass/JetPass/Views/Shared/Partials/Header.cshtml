@@ -1,0 +1,99 @@
+@using JetPass.BusinessLogic.Infrastructure.Services
+@{
+    <script src="~/Assets/Scripts/DropDown.js"></script>
+    string cookie = new CookiesService().GetCookie("id_USER").Result;
+    bool isAuthorized = !string.IsNullOrEmpty(cookie);
+    int userId;
+    bool isAdmin = isAuthorized && int.TryParse(cookie, out userId) && userId == 1;
+}
+<!-- Header -->
+<header class="gradient-bg sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+            <a href="@Url.Action("Index", "Home")">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-plane-departure text-3xl text-red-400"></i>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-red-400 to-pink-500 bg-clip-text text-transparent">
+                        SkyJet</h1>
+                </div>
+            </a>
+
+            <!-- Десктопное меню -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="@Url.Action("Index", "Flights")" class="nav-link text-gray-300 hover:text-white">Find
+                    Tickets</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <!-- Десктопное меню пользователя -->
+                <div class="relative hidden md:block">
+                    <button id="user-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-user-circle text-2xl"></i>
+                    </button>
+                    <div id="user-dropdown"
+                         class="hidden absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-700">
+                        @if (isAuthorized)
+                        {
+                            <a href="@Url.Action("Index", "MyProfile")"
+                               class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">My
+                                profile</a>
+                            if (isAdmin)
+                            {
+                                <a href="@Url.Action("Index", "Admin")"
+                                   class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Admin</a>
+                            }
+
+                            <a href="@Url.Action("Logout", "Account")"
+                               class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Logout</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("SignIn", "Account")"
+                               class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Sign
+                                In</a>
+                            <a href="@Url.Action("SignUp", "Account")"
+                               class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Sign
+                                Up</a>
+                        }
+                    </div>
+                </div>
+
+                <!-- Кнопка бургер-меню (мобильная версия) -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Мобильное меню (скрыто по умолчанию) -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+            <div class="flex flex-col space-y-3">
+                <a href="@Url.Action("Index", "Flights")" class="text-gray-300 hover:text-white px-2 py-1">Find
+                    Tickets</a>
+
+                <div class="border-t border-gray-700 pt-3">
+                    @if (isAuthorized)
+                    {
+                        <a href="@Url.Action("Index", "MyProfile")"
+                           class="block text-gray-300 hover:text-white px-2 py-1">My profile</a>
+                        if (isAdmin)
+                        {
+                            <a href="@Url.Action("Index", "Admin")"
+                               class="block text-gray-300 hover:text-white px-2 py-1">Admin</a>
+                        }
+
+                        <a href="@Url.Action("Logout", "Account")"
+                           class="block text-gray-300 hover:text-white px-2 py-1">Logout</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("SignIn", "Account")"
+                           class="block text-gray-300 hover:text-white px-2 py-1">Sign In</a>
+                        <a href="@Url.Action("SignUp", "Account")"
+                           class="block text-gray-300 hover:text-white px-2 py-1">Sign Up</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
